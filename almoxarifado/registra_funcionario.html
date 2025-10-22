@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Registro de Funcionários</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>Registro de Funcionários</h1>
+    <form id="registroFuncionario" method="POST" action="registra_funcionario.php">
+      <label for="nome">Nome do Funcionário:</label>
+      <input type="text" id="nome" name="nome" required />
+
+      <label for="cargo">Cargo:</label>
+      <input type="text" id="cargo" name="cargo" required />
+
+      <button type="submit">Registrar</button>
+    </form>
+  </div>
+</body>
+</html>
