@@ -47,6 +47,10 @@
     border-color: #007BFF;
     outline: none;
   }
+  form input[type="number"]:focus {
+    border-color: #007BFF;
+    outline: none;
+  }
   
   button {
     width: 100%;

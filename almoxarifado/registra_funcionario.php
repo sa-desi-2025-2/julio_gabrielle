@@ -15,9 +15,10 @@ if ($conn->connect_error) {
 
 $nome = $conn->real_escape_string($_POST['nome']);
 $cargo = $conn->real_escape_string($_POST['cargo']);
+$re = $conn->real_escape_string($_POST['re']);
 
 
-$sql = "INSERT INTO funcionarios (nome, cargo) VALUES ('$nome', '$cargo')"; 
+$sql = "INSERT INTO funcionarios (nome, cargo ,re) VALUES ('$nome', '$cargo', '$re')"; 
 
 if ($conn->query($sql) === TRUE) {
     echo "Funcionário registrado com sucesso!";
