@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 23/10/2025 às 21:33
+-- Tempo de geração: 24/10/2025 às 20:19
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.2.12
 
@@ -28,12 +28,14 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `equipamentos` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+  `id_equipamento` bigint(20) UNSIGNED NOT NULL,
   `nome` varchar(100) NOT NULL,
   `fabricante` varchar(100) DEFAULT NULL,
-  `quantidade` int(11) DEFAULT NULL,
+  `quantidade` int(11) NOT NULL DEFAULT 0,
   `descricao` text DEFAULT NULL,
-  `prateleira_id` int(11) DEFAULT NULL
+  `id_prateleira` bigint(20) UNSIGNED DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -43,19 +45,30 @@ CREATE TABLE `equipamentos` (
 --
 
 CREATE TABLE `funcionarios` (
-  `id` int(11) NOT NULL,
+  `id_funcionario` int(11) NOT NULL,
   `nome` varchar(255) NOT NULL,
   `cargo` varchar(255) NOT NULL,
-  `RE` int(11) DEFAULT NULL
+  `RE` varchar(20) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `adm` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+-- --------------------------------------------------------
+
 --
--- Despejando dados para a tabela `funcionarios`
+-- Estrutura para tabela `movimentacoes`
 --
 
-INSERT INTO `funcionarios` (`id`, `nome`, `cargo`, `RE`) VALUES
-(2, 'WAGNER DO SANTOS LOPES', 'Eletricista', NULL),
-(3, 'gabriellle pi', 'gerente do ete', 2147483647);
+CREATE TABLE `movimentacoes` (
+  `id_movimentacao` bigint(20) UNSIGNED NOT NULL,
+  `id_equipamento` bigint(20) UNSIGNED NOT NULL,
+  `id_funcionario` int(11) DEFAULT NULL,
+  `tipo_movimentacao` enum('entrada','saida') NOT NULL,
+  `quantidade` int(11) NOT NULL,
+  `data_movimentacao` timestamp NOT NULL DEFAULT current_timestamp(),
+  `observacao` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -64,8 +77,9 @@ INSERT INTO `funcionarios` (`id`, `nome`, `cargo`, `RE`) VALUES
 --
 
 CREATE TABLE `prateleiras` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `numero_prateleira` varchar(50) NOT NULL
+  `id_prateleira` bigint(20) UNSIGNED NOT NULL,
+  `numero_prateleira` varchar(50) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -76,19 +90,28 @@ CREATE TABLE `prateleiras` (
 -- Índices de tabela `equipamentos`
 --
 ALTER TABLE `equipamentos`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id_equipamento`),
+  ADD KEY `fk_equipamentos_prateleiras` (`id_prateleira`);
 
 --
 -- Índices de tabela `funcionarios`
 --
 ALTER TABLE `funcionarios`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id_funcionario`);
+
+--
+-- Índices de tabela `movimentacoes`
+--
+ALTER TABLE `movimentacoes`
+  ADD PRIMARY KEY (`id_movimentacao`),
+  ADD KEY `fk_movimentacoes_equipamentos` (`id_equipamento`),
+  ADD KEY `fk_movimentacoes_funcionarios` (`id_funcionario`);
 
 --
 -- Índices de tabela `prateleiras`
 --
 ALTER TABLE `prateleiras`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id_prateleira`);
 
 --
 -- AUTO_INCREMENT para tabelas despejadas
@@ -98,19 +121,42 @@ ALTER TABLE `prateleiras`
 -- AUTO_INCREMENT de tabela `equipamentos`
 --
 ALTER TABLE `equipamentos`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id_equipamento` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de tabela `funcionarios`
 --
 ALTER TABLE `funcionarios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_funcionario` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de tabela `movimentacoes`
+--
+ALTER TABLE `movimentacoes`
+  MODIFY `id_movimentacao` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de tabela `prateleiras`
 --
 ALTER TABLE `prateleiras`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id_prateleira` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- Restrições para tabelas despejadas
+--
+
+--
+-- Restrições para tabelas `equipamentos`
+--
+ALTER TABLE `equipamentos`
+  ADD CONSTRAINT `fk_equipamentos_prateleiras` FOREIGN KEY (`id_prateleira`) REFERENCES `prateleiras` (`id_prateleira`) ON DELETE SET NULL ON UPDATE CASCADE;
+
+--
+-- Restrições para tabelas `movimentacoes`
+--
+ALTER TABLE `movimentacoes`
+  ADD CONSTRAINT `fk_movimentacoes_equipamentos` FOREIGN KEY (`id_equipamento`) REFERENCES `equipamentos` (`id_equipamento`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_movimentacoes_funcionarios` FOREIGN KEY (`id_funcionario`) REFERENCES `funcionarios` (`id_funcionario`) ON DELETE SET NULL ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
