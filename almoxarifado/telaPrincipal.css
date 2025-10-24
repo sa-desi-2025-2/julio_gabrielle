@@ -9,7 +9,7 @@
   /* ===== SIDEBAR PADRÃO ===== */
   .sidebar {
     width: 220px;
-    background-color: #2c3e50; /* cor original */
+    background-color: #0f3f6b; /* cor original */
     min-height: 100vh;
     padding: 20px;
     color: #fff;
@@ -43,13 +43,13 @@
   
   .sidebar ul li:hover,
   .sidebar ul li a:hover {
-    background-color: #34495e; /* efeito ao passar o mouse */
+    background-color: #1aa0c298; /* efeito ao passar o mouse */
     transform: translateX(5px);
   }
   
   .sidebar ul li.ativo,
   .sidebar ul li a.active {
-    background-color: #1abc9c; /* item ativo */
+    background-color: #1aa0c2; /* item ativo */
   }
   
   /* ===== MAIN CONTENT PADRÃO ===== */
@@ -79,7 +79,7 @@
   }
   
   table th {
-    background-color: #1abc9c;
+    background-color: #1aa0c2;
     color: #fff;
   }
   
@@ -109,7 +109,7 @@
   }
   
   .form-grupo input:focus {
-    border-color: #1abc9c;
+    border-color: #1aa0c2;
     outline: none;
   }
   
@@ -129,21 +129,21 @@
   }
   
   .botoes button.salvar {
-    background-color: #1abc9c;
+    background-color: #1aa0c2;
     color: #fff;
   }
   
   .botoes button.salvar:hover {
-    background-color: #16a085;
+    background-color: #147891;
   }
   
   .botoes button.cancelar {
-    background-color: #e74c3c;
+    background-color: #e73c3c;
     color: #fff;
   }
   
   .botoes button.cancelar:hover {
-    background-color: #c0392b;
+    background-color: #c02b2b;
   }
   
   /* ===== BARRA DE AÇÕES ===== */
@@ -157,14 +157,20 @@
     flex: 1;
     padding: 10px;
     border-radius: 8px;
-    border: 1px solid #ccc;
-
+    border: 1px solid #d8efff;
   }
+
+  .actions input.search:focus {
+    border-color: #1aa0c2; 
+    outline: none; 
+    box-shadow: 0 0 4px #1aa0c26b; 
+  }
+  
   
   .actions .btn {
     padding: 10px 15px;
     border: none;
-    background-color: #1abc9c;
+    background-color: #1aa0c2;
     color: #fff;
     border-radius: 8px;
     cursor: pointer;
@@ -172,6 +178,45 @@
   }
   
   .actions .btn:hover {
-    background-color: #16a085;
+    background-color: #06667e;
   }
   
+
+
+  /* ===== BOTÃO ADICIONAR (“+”) ===== */
+.actions .btn.adicionar {
+  background-color: #1aa0c2;
+  color: #fff;
+  font-size: 20px;
+  font-weight: bold;
+  border-radius: 50%;
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  transition: background 0.3s, transform 0.2s;
+}
+
+.actions .btn.adicionar:hover {
+  background-color: #06667e;
+  transform: scale(1.05);
+}
+
+/* ===== BOTÃO EDITAR (NA TABELA) ===== */
+.table .btn.editar {
+  background-color: #1aa0c2;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 12px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.3s, transform 0.2s;
+}
+
+.table .btn.editar:hover {
+  background-color: #06667e;
+  transform: scale(1.05);
+}
