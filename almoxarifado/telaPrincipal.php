@@ -10,7 +10,7 @@ if ($conn->connect_error) {
     die("Falha na conexão: " . $conn->connect_error);
 }
 
-// Busca os equipamentos e o nome do responsável
+
 $sql = "
 SELECT e.nome AS equipamento,
        e.localizacao,

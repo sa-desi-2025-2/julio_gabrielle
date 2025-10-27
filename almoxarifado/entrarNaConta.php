@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Login - Almoxarifado </title>
+<title>Login - Almoxarifado</title>
 <link rel="stylesheet" href="Login.css" />
 </head>
 <body>
@@ -12,11 +12,9 @@
       <div class="tile"></div>
       <div class="tile"></div>
       <div class="tile"></div>
-
       <div class="tile"></div>
       <div class="tile"></div>
       <div class="tile"></div>
-
       <div class="tile"></div>
       <div class="tile"></div>
       <div class="tile"></div>
@@ -24,13 +22,15 @@
 
     <div class="login-wrap" role="region" aria-label="Formulário de login">
       <div class="login-title">Entrar na conta</div>
+      
+     
+      <form action="verificar_login.php" method="POST">
         <div class="field">
           <label class="label" for="usuario">RE do Funcionário</label>
-          <input id="usuario" type="text" placeholder="Digite seu nome" autocomplete="username">
+          <input id="usuario" name="re" type="text" placeholder="Digite seu RE" required />
         </div>
 
-        <button class="btn" type="submit" nome="entra">Entrar</button>
-
+        <button class="btn" type="submit" name="entra">Entrar</button>
       </form>
     </div>
   </div>
