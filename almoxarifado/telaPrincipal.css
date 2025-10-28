@@ -204,7 +204,7 @@
   transform: scale(1.05);
 }
 
-/* ===== BOTÃO EDITAR (NA TABELA) ===== */
+
 .table .btn.editar {
   background-color: #1aa0c2;
   color: #fff;
@@ -219,4 +219,86 @@
 .table .btn.editar:hover {
   background-color: #06667e;
   transform: scale(1.05);
+}
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropbtn {
+  background-color: #1aa0c2;
+  color: #fff;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.3s, transform 0.2s;
+}
+
+.dropbtn:hover {
+  background-color: #06667e;
+  transform: scale(1.05);
+}
+
+.dropdown-content {
+  display: none;
+  position: fixed;
+  right: 0;
+  top: 35px;
+  background-color: #fff;
+  min-width: 180px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+  border-radius: 8px;
+  padding: 12px;
+  z-index: 1000;
+}
+
+.dropdown-content.show {
+  display: block;
+}
+
+.dropdown-content label {
+  font-size: 13px;
+  display: block;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+.dropdown-content input[type="number"] {
+  width: 70px;
+  padding: 5px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  margin-bottom: 10px;
+}
+
+.dropdown-content .acao-btn {
+  display: block;
+  width: 100%;
+  border: none;
+  border-radius: 6px;
+  padding: 8px;
+  margin-top: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.3s;
+}
+
+.dropdown-content .acao-btn.pegar {
+  background-color: #1aa0c2;
+  color: #fff;
+}
+
+.dropdown-content .acao-btn.devolver {
+  background-color: #e73c3c;
+  color: #fff;
+}
+
+.dropdown-content .acao-btn.pegar:hover {
+  background-color: #06667e;
+}
+
+.dropdown-content .acao-btn.devolver:hover {
+  background-color: #c02b2b;
 }

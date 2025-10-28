@@ -13,13 +13,13 @@ if ($conn->connect_error) {
 }
 
 
-if (!isset($_POST['re']) || empty($_POST['re'])) {
-    echo "<h3>❌ RE não informado.</h3>";
-    echo "<a href='entra_na_conta.html'>Voltar</a>";
+if (!isset($_POST['RE']) || empty($_POST['RE'])) {
+    echo "<h3> RE não informado.</h3>";
+    echo "<a href='entrarNaConta.html'>Voltar</a>";
     exit();
 }
 
-$re = $conn->real_escape_string($_POST['re']);
+$re = $conn->real_escape_string($_POST['RE']);
 
 $sql = "SELECT * FROM funcionarios WHERE RE = '$re'";
 $resultado = $conn->query($sql);
@@ -43,9 +43,10 @@ if ($resultado->num_rows > 0) {
     }
 
 } else {
-    echo "<h3>❌ RE não encontrado. Acesso negado.</h3>";
+    echo "<h3> RE não encontrado. Acesso negado.</h3>";
     echo "<a href='entra_na_conta.html'>Voltar</a>";
 }
 
 $conn->close();
 ?>
+
