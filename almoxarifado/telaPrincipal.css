@@ -302,3 +302,133 @@
 .dropdown-content .acao-btn.devolver:hover {
   background-color: #c02b2b;
 }
+
+/* ===== Floating Action Button (FAB) ===== */
+.fab {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background-color: #1aa0c2;
+  color: #fff;
+  font-size: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 24px rgba(26,160,194,0.25);
+  border: none;
+  cursor: pointer;
+  z-index: 1100;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.fab:hover { transform: translateY(-4px); box-shadow: 0 12px 30px rgba(26,160,194,0.30); }
+/* rotate to "x" when open */
+.fab.open { transform: rotate(45deg) translateY(-2px); }
+
+/* ensure FAB remains clickable even if parent used pointer-events */
+.speed-dial .fab { pointer-events: auto; }
+
+/* ===== Speed Dial (lista de ações) ===== */
+.speed-dial {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 1200;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+  /* allow the FAB to receive clicks; individual actions will be disabled while closed */
+  pointer-events: auto;
+}
+
+/* ações (inicialmente escondidas) */
+.speed-dial-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  /* coloca as ações acima do FAB (FAB tem 56px de altura) */
+  margin-bottom: 88px;
+  align-items: flex-end;
+  transform-origin: bottom right;
+  transition: opacity 0.18s ease, transform 0.18s ease;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(8px) scale(0.98);
+  pointer-events: none;
+  z-index: 1300; /* garantir que apareça sobre o FAB */
+}
+
+/* estado aberto */
+.speed-dial.open {
+  pointer-events: auto;
+}
+.speed-dial.open .speed-dial-actions {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+
+/* botões das ações */
+.sd-btn {
+  background-color: #fff;
+  color: #0f3f6b;
+  border: 1px solid #d8efff;
+  padding: 10px 16px; /* maior */
+  border-radius: 12px; /* bordas ligeiramente maiores */
+  cursor: pointer;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+  font-weight: 700;
+  font-size: 15px; /* fonte maior para legibilidade */
+  white-space: nowrap;
+  transition: background 0.12s, transform 0.12s;
+}
+.sd-btn:hover { background-color: #f1fbff; transform: translateY(-2px); }
+
+/* mobile adjustments */
+@media (max-width: 600px) {
+  .fab { right: 16px; bottom: 16px; width: 48px; height: 48px; font-size: 22px; }
+  .speed-dial { right: 16px; bottom: 16px; }
+  .sd-btn { padding: 8px 10px; font-size: 14px; }
+}
+
+/* linhas clicáveis da tabela */
+.data-row {
+  cursor: pointer;
+  transition: background 0.12s;
+}
+.data-row:hover,
+.data-row:focus {
+  background-color: #f3fbff;
+  outline: none;
+}
+
+/* linha com conteúdo expansível */
+.expand-row .expand-cell {
+  background: #ffffff;
+  padding: 14px 18px;
+  border-bottom: 1px solid #eee;
+}
+
+/* container dos botões dentro do painel expansível */
+.row-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+/* reaproveita .acao-btn mas aumenta o tamanho visual para o painel */
+.expand-row .acao-btn {
+  padding: 10px 18px;
+  font-size: 15px;
+  border-radius: 10px;
+  font-weight: 700;
+}
+
+/* animação suave ao mostrar/ocultar (opcional - JS controla hidden) */
+.expand-row[hidden] .expand-cell { opacity: 0; transform: translateY(-6px); pointer-events: none; }
+.expand-row:not([hidden]) .expand-cell { opacity: 1; transform: none; pointer-events: auto; transition: opacity 0.18s ease, transform 0.18s ease; }
