@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Editar Equipamento</title>
+  <link rel="stylesheet" href="../css/telaPrincipal.css" />
+</head>
+<body>
+  <div class="sidebar">
+    <h2>Almoxarifado</h2>
+    <ul>
+      <li class="ativo">Início</li>
+      <li>Equipamentos</li>
+      <li>Ferramentas</li>
+      <li>Configurações</li>
+    </ul>
+  </div>
+
+  <main>
+    <div class="topbar">
+      <h1>Editar Equipamento</h1>
+    </div>
+
+    <div class="breadcrumbs">
+      <span> Equipamentos</span> > <span class="atual">Editar Equipamento</span>
+    </div>
+
+    <div class="tabela-header">
+      <table>
+        <thead>
+          <tr>
+            <th>Nome do Equipamento</th>
+            <th>Quantidade</th>
+            <th>Marca</th>
+            <th>Responsável</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Equipamento 1</td>
+            <td>1</td>
+            <td>RMK</td>
+            <td>Gabrielle Pinheiro</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="form-container">
+      <form class="form-editar">
+        <div class="form-grupo">
+          <label>Nome do Equipamento</label>
+          <input type="text" value="Equipamento 1" />
+        </div>
+
+        <div class="form-grupo">
+          <label>Quantidade</label>
+          <input type="number" value="1" />
+        </div>
+
+        <div class="form-grupo">
+          <label>Marca</label>
+          <input type="text" value="RMK" />
+        </div>
+
+        <div class="form-grupo">
+          <label>Descrição</label>
+          <input type="text" placeholder="Digite uma descrição..." />
+        </div>
+
+        <div class="botoes">
+          <button type="submit" class="salvar">Salvar Alterações</button>
+          <button type="button" class="cancelar">Cancelar</button>
+        </div>
+      </form>
+    </div>
+  </main>
+</body>
+</html>

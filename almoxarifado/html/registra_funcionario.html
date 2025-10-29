@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Registro de Funcionários</title>
+  <link rel="stylesheet" href="../css/Login.css" />
+</head>
+<body>
+  <div class="page">
+    <div class="mosaic">
+      <div class="tile"></div>
+      <div class="tile"></div>
+      <div class="tile"></div>
+      <div class="tile"></div>
+      <div class="tile"></div>
+      <div class="tile"></div>
+      <div class="tile"></div>
+      <div class="tile"></div>
+      <div class="tile"></div>
+    </div>
+
+    <div class="login-wrap">
+      <h1 class="login-title">Registro de Funcionário</h1>
+      <form id="registroFuncionario" method="POST" action="../php/registra_funcionario.php">
+        <div class="field">
+          <label class="label" for="nome">Nome do Funcionário:</label>
+          <input type="text" id="nome" name="nome" placeholder="Digite o nome completo" required />
+        </div>
+
+        <div class="field">
+          <label class="label" for="cargo">Cargo:</label>
+          <input type="text" id="cargo" name="cargo" placeholder="Digite o cargo" required />
+        </div>
+
+        <div class="field">
+          <label class="label" for="re">RE:</label>
+          <input type="number" id="re" name="re" placeholder="Digite o RE" required />
+        </div>
+
+        <div class="field checkbox-field">
+          <label class="checkbox-label">
+            <input type="checkbox" id="administrador" name="administrador" />
+            Administrador
+          </label>
+        </div>
+
+        <button type="submit" class="btn">Registrar</button>
+
+        <div class="links">
+          <a href="telaeditor.html">Voltar ao inicio</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</body>
+</html>
