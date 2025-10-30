@@ -1,7 +1,7 @@
 <?php
 session_start();
 if (!isset($_SESSION['id_funcionario'])) {
-  header("Location: ../html/telaPrincipal.html");
+  header("Location: ../php.front/telaPrincipal.php");
   exit();
 }
 ?>

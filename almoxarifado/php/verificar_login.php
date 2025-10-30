@@ -35,16 +35,16 @@ if ($resultado->num_rows > 0) {
 
  
     if ($funcionario['adm'] == 1) {
-        header("Location: ../html/telaeditor.html");
+        header("Location: ../php.front/telaeditor.php");
         exit();
     } else {
-        header("Location: ../html/telaPrincipal.php");
+        header("Location: ../php.front/telaPrincipal.php");
         exit();
     }
 
 } else {
     echo "<h3> RE não encontrado. Acesso negado.</h3>";
-    echo "<a href='../html/entra_na_conta.html'>Voltar</a>";
+    echo "<a href='../html/entraNaConta.html'>Voltar</a>";
 }
 
 $conn->close();

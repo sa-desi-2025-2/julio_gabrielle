@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Painel do Usuário</title>
+  <link rel="stylesheet" href="../css/telaPrincipal.css">
+</head>
+<body>
+  <div class="dashboard">
+    <aside class="sidebar">
+      <h2 class="logo">Almoxarifado</h2>
+      <ul class="menu">
+        <li class="ativo">Início</li>
+        <li>Equipamentos</li>
+        <li>Ferramentas</li>
+        <li>Configurações</li>
+      </ul>
+    </aside>
+
+    <main class="content">
+      <header class="header">
+        <h1>Equipamentos Ativos</h1>
+        <div class="actions">
+          <input type="text" placeholder="Buscar equipamento..." class="search">
+          <button class="btn">Filtrar</button>
+        </div>
+      </header>
+
+      <section class="table-section">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Nome do Equipamento</th>
+              <th>Localização</th>
+              <th>Quantidade</th>
+              <th>Marca</th>
+              <th>Responsável</th>
+              <th>Ações</th> 
+            </tr>
+          </thead>
+          <tbody>
+            <?php include '../php/equipamentos.php'; ?>
+          </tbody>
+        </table>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+    
+      const rows = document.querySelectorAll('.data-row');
+      rows.forEach(row => {
+        row.addEventListener('click', () => {
+          const expandRow = row.nextElementSibling;
+         
+          if (event.target.closest('button')) return; 
+
+          const expanded = row.getAttribute('aria-expanded') === 'true';
+          row.setAttribute('aria-expanded', !expanded);
+          
+          expandRow.hidden = expanded; 
+        });
+      });
+
+      document.addEventListener('click', (e) => {
+        const btn = e.target;
+
+      
+        if (btn.classList.contains('pegar') || btn.classList.contains('devolver')) {
+          const action = btn.classList.contains('pegar') ? 'pegar_equipamento' : 'devolver_equipamento';
+          
+          const expandRow = btn.closest('.expand-row'); 
+          
+       
+          const mainRow = expandRow.previousElementSibling; 
+          
+        
+          const nome = mainRow.querySelector('td').textContent.trim(); 
+        
+          const quantidade = expandRow.querySelector('.quantidade').value; 
+
+          if (!quantidade || quantidade <= 0) {
+            alert('Informe uma quantidade válida.');
+            return;
+          }
+
+      
+          fetch(`../php/${action}.php`, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+            body: `nome=${encodeURIComponent(nome)}&quantidade=${encodeURIComponent(quantidade)}`
+          })
+          .then(res => res.text())
+          .then(msg => {
+            alert(msg);
+            location.reload(); 
+          })
+          .catch(() => alert('Erro ao comunicar com o servidor.'));
+        }
+      });
+    });
+  </script>
+</body>
+</html>
