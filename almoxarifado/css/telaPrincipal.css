@@ -1,4 +1,4 @@
-/* RESET */
+
 * {
     margin: 0;
     padding: 0;
@@ -6,17 +6,17 @@
     font-family: Arial, sans-serif;
   }
   
-  /* ===== SIDEBAR PADRÃO ===== */
+  /*  SIDEBAR PADRÃO  */
   .sidebar {
     width: 220px;
-    background-color: #0f3f6b; /* cor original */
+    background-color: #0f3f6b; 
     min-height: 100vh;
     padding: 20px;
     color: #fff;
     position: fixed;
     top: 0;
     left: 0;
-    border-radius: 0 12px 12px 0; /* mantém o arredondado do modelo */
+    border-radius: 0 12px 12px 0; 
   }
   
   .sidebar h2 {
@@ -43,24 +43,24 @@
   
   .sidebar ul li:hover,
   .sidebar ul li a:hover {
-    background-color: #1aa0c298; /* efeito ao passar o mouse */
+    background-color: #1aa0c298; 
     transform: translateX(5px);
   }
   
   .sidebar ul li.ativo,
   .sidebar ul li a.active {
-    background-color: #1aa0c2; /* item ativo */
+    background-color: #1aa0c2; 
   }
   
-  /* ===== MAIN CONTENT PADRÃO ===== */
+  /* MAIN  */
   main {
-    margin-left: 240px; /* distancia da sidebar */
+    margin-left: 240px; 
     padding: 20px;
     min-height: 100vh;
     background-color: #f5f5f5;
   }
   
-  /* ===== TABELAS ===== */
+  /*  TABELAS */
   table {
     width: 100%;
     margin-top: 20px;
@@ -83,7 +83,7 @@
     color: #fff;
   }
   
-  /* ===== FORMULÁRIOS ===== */
+  /*  FORMULÁRIOS */
   .form-container {
     margin-top: 20px;
     background-color: #fff;
@@ -113,7 +113,7 @@
     outline: none;
   }
   
-  /* ===== BOTÕES ===== */
+  /* BOTÕES */
   .botoes {
     margin-top: 20px;
     display: flex;
@@ -146,7 +146,7 @@
     background-color: #c02b2b;
   }
   
-  /* ===== BARRA DE AÇÕES ===== */
+  /* BARRA DE AÇÕES */
   .actions {
     margin-top: 10px;
     display: flex;
@@ -183,7 +183,7 @@
   
 
 
-  /* ===== BOTÃO ADICIONAR (“+”) ===== */
+  /*BOTÃO ADICIONAR */
 .actions .btn.adicionar {
   background-color: #1aa0c2;
   color: #fff;
@@ -303,7 +303,6 @@
   background-color: #c02b2b;
 }
 
-/* ===== Floating Action Button (FAB) ===== */
 .fab {
   position: fixed;
   right: 24px;
@@ -324,13 +323,9 @@
   transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 .fab:hover { transform: translateY(-4px); box-shadow: 0 12px 30px rgba(26,160,194,0.30); }
-/* rotate to "x" when open */
 .fab.open { transform: rotate(45deg) translateY(-2px); }
-
-/* ensure FAB remains clickable even if parent used pointer-events */
 .speed-dial .fab { pointer-events: auto; }
 
-/* ===== Speed Dial (lista de ações) ===== */
 .speed-dial {
   position: fixed;
   right: 24px;
@@ -340,16 +335,13 @@
   flex-direction: column;
   align-items: flex-end;
   gap: 8px;
-  /* allow the FAB to receive clicks; individual actions will be disabled while closed */
   pointer-events: auto;
 }
 
-/* ações (inicialmente escondidas) */
 .speed-dial-actions {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  /* coloca as ações acima do FAB (FAB tem 56px de altura) */
   margin-bottom: 88px;
   align-items: flex-end;
   transform-origin: bottom right;
@@ -358,10 +350,9 @@
   visibility: hidden;
   transform: translateY(8px) scale(0.98);
   pointer-events: none;
-  z-index: 1300; /* garantir que apareça sobre o FAB */
+  z-index: 1300; 
 }
 
-/* estado aberto */
 .speed-dial.open {
   pointer-events: auto;
 }
@@ -372,30 +363,30 @@
   pointer-events: auto;
 }
 
-/* botões das ações */
+
 .sd-btn {
   background-color: #fff;
   color: #0f3f6b;
   border: 1px solid #d8efff;
-  padding: 10px 16px; /* maior */
-  border-radius: 12px; /* bordas ligeiramente maiores */
+  padding: 10px 16px; 
+  border-radius: 12px;
   cursor: pointer;
   box-shadow: 0 6px 18px rgba(0,0,0,0.08);
   font-weight: 700;
-  font-size: 15px; /* fonte maior para legibilidade */
+  font-size: 15px; 
   white-space: nowrap;
   transition: background 0.12s, transform 0.12s;
 }
 .sd-btn:hover { background-color: #f1fbff; transform: translateY(-2px); }
 
-/* mobile adjustments */
+
 @media (max-width: 600px) {
   .fab { right: 16px; bottom: 16px; width: 48px; height: 48px; font-size: 22px; }
   .speed-dial { right: 16px; bottom: 16px; }
   .sd-btn { padding: 8px 10px; font-size: 14px; }
 }
 
-/* linhas clicáveis da tabela */
+
 .data-row {
   cursor: pointer;
   transition: background 0.12s;
@@ -406,14 +397,13 @@
   outline: none;
 }
 
-/* linha com conteúdo expansível */
+
 .expand-row .expand-cell {
   background: #ffffff;
   padding: 14px 18px;
   border-bottom: 1px solid #eee;
 }
 
-/* container dos botões dentro do painel expansível */
 .row-actions {
   display: flex;
   gap: 12px;
@@ -421,7 +411,6 @@
   align-items: center;
 }
 
-/* reaproveita .acao-btn mas aumenta o tamanho visual para o painel */
 .expand-row .acao-btn {
   padding: 10px 18px;
   font-size: 15px;
@@ -429,6 +418,29 @@
   font-weight: 700;
 }
 
-/* animação suave ao mostrar/ocultar (opcional - JS controla hidden) */
+
 .expand-row[hidden] .expand-cell { opacity: 0; transform: translateY(-6px); pointer-events: none; }
 .expand-row:not([hidden]) .expand-cell { opacity: 1; transform: none; pointer-events: auto; transition: opacity 0.18s ease, transform 0.18s ease; }
+
+/* CHECKBOX  */
+.checkbox-grupo {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin-top: 10px;
+}
+
+.checkbox-grupo label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.checkbox-grupo input[type="checkbox"] {
+  accent-color: #1aa0c2;
+  transform: scale(1.2);
+  cursor: pointer;
+  margin: 0;
+}
