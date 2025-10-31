@@ -444,3 +444,45 @@
   cursor: pointer;
   margin: 0;
 }
+
+/* ===== QUANTIDADE + BOTÕES ===== */
+.quantidade {
+  width: 70px;
+  padding: 6px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  margin-right: 6px;
+  font-size: 14px;
+}
+
+.quantidade:focus {
+  border-color: #1aa0c2;
+  outline: none;
+}
+
+.acao-btn {
+  border: none;
+  border-radius: 6px;
+  padding: 6px 12px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.acao-btn.pegar {
+  background: #1aa0c2;
+  color: #fff;
+}
+
+.acao-btn.pegar:hover {
+  background: #06667e;
+}
+
+.acao-btn.devolver {
+  background: #e73c3c;
+  color: #fff;
+}
+
+.acao-btn.devolver:hover {
+  background: #c02b2b;
+}

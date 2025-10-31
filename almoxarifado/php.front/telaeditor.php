@@ -1,7 +1,7 @@
 <?php
-// FIX: Adicionada proteção de sessão. Este script verifica se o usuário é um admin.
-// Deve ser a PRIMEIRA coisa no arquivo.
 include '../php/painel_admin.php';
+
+$view_atual = $_GET['view'] ?? 'todos';
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -10,17 +10,32 @@ include '../php/painel_admin.php';
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Painel do Administrador</title>
   <link rel="stylesheet" href="../css/telaPrincipal.css" />
+  <style>
+    .sidebar ul li a { display: block; text-decoration: none; color: inherit; }
+    .sidebar ul li a.ativo { background-color: #17377d; font-weight: bold; border-radius: 8px; }
+  </style>
 </head>
 <body>
   <div class="dashboard">
     <aside class="sidebar">
       <h2 class="logo">Almoxarifado</h2>
       <ul class="menu">
-        <li class="ativo">Início</li>
-        <li>Equipamentos</li>
-        <li>Ferramentas</li>
-        <li>Configurações</li>
-      </ul>
+        <li>
+          <a href="telaeditor.php?view=todos" class="<?php echo ($view_atual == 'todos') ? 'ativo' : ''; ?>">
+            Início (Todos)
+          </a>
+        </li>
+        <li>
+          <a href="telaeditor.php?view=livres" class="<?php echo ($view_atual == 'livres') ? 'ativo' : ''; ?>">
+            Equipamentos livres
+          </a>
+        </li>
+        <li>
+          <a href="telaeditor.php?view=ocupados" class="<?php echo ($view_atual == 'ocupados') ? 'ativo' : ''; ?>">
+            Equipamentos em ocupação
+          </a>
+        </li>
+        <li><a href="#">Configurações</a></li> </ul>
     </aside>
 
     <main class="content">
@@ -45,7 +60,7 @@ include '../php/painel_admin.php';
             </tr>
           </thead>
           <tbody>
-              <?php include '../php/equipamentos.php'; ?>
+              <?php include '../php/equipamentos.php';  ?>
           </tbody>
         </table>
       </section>
@@ -64,6 +79,8 @@ include '../php/painel_admin.php';
     <script>
       
       document.addEventListener('DOMContentLoaded', () => {
+        
+        
         const fab = document.getElementById('fab');
         const speedDial = document.getElementById('speedDial');
         const actions = document.getElementById('speedActions');
@@ -97,15 +114,51 @@ include '../php/painel_admin.php';
             const action = btn.dataset.action;
     
             if (action === 'adicionar-usuario') {
-              
               window.location.href = '../html/registra_funcionario.html';
             } 
             else if (action === 'adicionar-equipamento') {
-              
               window.location.href = '../html/adicionarEquipamento.html';
             }
           });
         });
+
+   
+        document.querySelectorAll('.data-row').forEach(row => {
+          row.addEventListener('click', (event) => {
+           
+            if (event.target.closest('button')) return; 
+
+            const expandRow = row.nextElementSibling;
+            const expanded = row.getAttribute('aria-expanded') === 'true';
+            
+            row.setAttribute('aria-expanded', !expanded);
+            expandRow.hidden = expanded; 
+          });
+        });
+
+      
+        document.querySelector('.table-section').addEventListener('click', (e) => {
+          const btn = e.target;
+
+          if (btn.classList.contains('editar')) {
+            const id = btn.dataset.id;
+            alert(`Redirecionando para editar o item ID: ${id}\n(Criar página: editarEquipamento.php?id=${id})`);
+         
+          }
+
+          if (btn.classList.contains('trocar-prat')) {
+            const id = btn.dataset.id;
+            const novaPrat = prompt("Digite a nova localização (prateleira):");
+            
+            if (novaPrat && novaPrat.trim() !== "") {
+            
+              alert(`(Lógica pendente) Trocando prateleira do ID ${id} para ${novaPrat}`);
+              
+
+            }
+          }
+        });
+
       });
     </script>
     

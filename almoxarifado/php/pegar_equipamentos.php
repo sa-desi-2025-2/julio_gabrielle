@@ -16,7 +16,7 @@ if ($id_equipamento > 0 && $qtd > 0 && $id_funcionario) {
      
         $sql_update = "UPDATE equipamentos SET quantidade = GREATEST(quantidade - ?, 0) WHERE id_equipamento = ?";
         $stmt_update = $conn->prepare($sql_update);
-        $stmt_update->bind_param("ii", $qtd, $id_equipamento);
+        $stmt_update->bind_param($nome, $qtd, $id_equipamento);
         $stmt_update->execute();
 
   
@@ -25,7 +25,7 @@ if ($id_equipamento > 0 && $qtd > 0 && $id_funcionario) {
            
             $sql_log = "INSERT INTO movimentacoes (id_equipamento, id_funcionario, tipo_movimentacao, quantidade) VALUES (?, ?, 'saida', ?)";
             $stmt_log = $conn->prepare($sql_log);
-            $stmt_log->bind_param("iii", $id_equipamento, $id_funcionario, $qtd);
+            $stmt_log->bind_param($nome, $id_equipamento, $id_funcionario, $qtd);
             $stmt_log->execute();
 
            
