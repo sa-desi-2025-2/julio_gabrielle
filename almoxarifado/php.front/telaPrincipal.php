@@ -1,3 +1,7 @@
+<?php
+
+include '../php/painel_usuario.php';
+?>
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -67,18 +71,12 @@
       document.addEventListener('click', (e) => {
         const btn = e.target;
 
-      
         if (btn.classList.contains('pegar') || btn.classList.contains('devolver')) {
           const action = btn.classList.contains('pegar') ? 'pegar_equipamento' : 'devolver_equipamento';
           
           const expandRow = btn.closest('.expand-row'); 
           
-       
-          const mainRow = expandRow.previousElementSibling; 
-          
-        
-          const nome = mainRow.querySelector('td').textContent.trim(); 
-        
+          const id_equipamento = expandRow.dataset.id;
           const quantidade = expandRow.querySelector('.quantidade').value; 
 
           if (!quantidade || quantidade <= 0) {
@@ -86,11 +84,10 @@
             return;
           }
 
-      
           fetch(`../php/${action}.php`, {
             method: 'POST',
             headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-            body: `nome=${encodeURIComponent(nome)}&quantidade=${encodeURIComponent(quantidade)}`
+            body: `id_equipamento=${encodeURIComponent(id_equipamento)}&quantidade=${encodeURIComponent(quantidade)}`
           })
           .then(res => res.text())
           .then(msg => {

@@ -1,3 +1,8 @@
+<?php
+// FIX: Adicionada proteção de sessão. Este script verifica se o usuário é um admin.
+// Deve ser a PRIMEIRA coisa no arquivo.
+include '../php/painel_admin.php';
+?>
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -57,6 +62,7 @@
 
 
     <script>
+      
       document.addEventListener('DOMContentLoaded', () => {
         const fab = document.getElementById('fab');
         const speedDial = document.getElementById('speedDial');

@@ -28,7 +28,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         echo "
         <script>
           alert('Equipamento adicionado com sucesso!');
-          window.location.href = '../php/telaeditor.php';
+          // FIX: Corrigido o caminho do redirecionamento para a tela de editor
+          window.location.href = '../php.front/telaeditor.php';
         </script>
         ";
     } else {

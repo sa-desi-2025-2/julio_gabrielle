@@ -17,7 +17,8 @@ $result = $conn->query($sql);
 
 if ($result && $result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
-        echo "<tr class='data-row' tabindex='0' aria-expanded='false'>";
+    
+        echo "<tr class='data-row' data-id='" . htmlspecialchars($row['id_equipamento']) . "' tabindex='0' aria-expanded='false'>";
         echo "<td>" . htmlspecialchars($row['nome']) . "</td>";
         echo "<td>" . htmlspecialchars($row['localizacao'] ?? 'N/D') . "</td>";
         echo "<td>" . htmlspecialchars($row['quantidade']) . "</td>";
@@ -25,7 +26,7 @@ if ($result && $result->num_rows > 0) {
         echo "<td>-</td>"; 
         echo "</tr>";
 
-        echo "<tr class='expand-row' hidden>
+        echo "<tr class='expand-row' data-id='" . htmlspecialchars($row['id_equipamento']) . "' hidden>
                 <td colspan='6' class='expand-cell'>
                     <div class='row-actions'>
                         <input type='number' class='quantidade' placeholder='Quantidade' min='1' max='" . htmlspecialchars($row['quantidade']) . "'>

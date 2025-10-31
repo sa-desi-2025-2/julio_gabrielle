@@ -44,9 +44,9 @@ if ($resultado->num_rows > 0) {
 
 } else {
     echo "<h3> RE não encontrado. Acesso negado.</h3>";
-    echo "<a href='../html/entraNaConta.html'>Voltar</a>";
+    
+    echo "<a href='../html/entrarNaConta.html'>Voltar</a>";
 }
 
 $conn->close();
 ?>
-
