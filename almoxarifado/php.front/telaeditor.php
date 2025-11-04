@@ -35,16 +35,29 @@ $view_atual = $_GET['view'] ?? 'todos';
             Equipamentos em ocupação
           </a>
         </li>
-        <li><a href="#">Configurações</a></li> </ul>
+        <li>
+        <a href="telaeditor.php?view=meus" class="<?php echo ($view_atual == 'meus') ? 'ativo' : ''; ?>">
+          Meus equipamentos
+        </a>
+        </li>
     </aside>
 
     <main class="content">
-      <header class="header">
+    <header class="header">
         <h1>Equipamentos Ativos</h1>
-        <div class="actions">
-          <input type="text" placeholder="Buscar equipamento..." class="search" />
-          <button class="btn">Filtrar</button>
-        </div>
+        <form class="actions" method="GET" action="">
+          
+          <input type="hidden" name="view" value="<?php echo htmlspecialchars($view_atual); ?>">
+          
+          <input 
+            type="text" 
+            placeholder="Buscar por nome, marca, local..." 
+            class="search" 
+            name="busca"
+            value="<?php echo htmlspecialchars($_GET['busca'] ?? ''); ?>"
+          />
+          <button type="submit" class="btn">Filtrar</button>
+        </form>
       </header>
 
       <section class="table-section">
@@ -67,7 +80,7 @@ $view_atual = $_GET['view'] ?? 'todos';
     </main>
   </div>
 
-  <div class="speed-dial" id="speedDial">
+  <div class="speed-dial" id="speedDial"> 
     <div class="speed-dial-actions" id="speedActions" aria-hidden="true">
       <button class="sd-btn" data-action="adicionar-usuario" type="button">Adicionar usuário</button>
       <button class="sd-btn" data-action="adicionar-equipamento" type="button">Adicionar equipamento</button>
@@ -126,7 +139,7 @@ $view_atual = $_GET['view'] ?? 'todos';
         document.querySelectorAll('.data-row').forEach(row => {
           row.addEventListener('click', (event) => {
            
-            if (event.target.closest('button')) return; 
+            if (event.target.closest('button') || event.target.closest('input')) return; 
 
             const expandRow = row.nextElementSibling;
             const expanded = row.getAttribute('aria-expanded') === 'true';
@@ -140,10 +153,10 @@ $view_atual = $_GET['view'] ?? 'todos';
         document.querySelector('.table-section').addEventListener('click', (e) => {
           const btn = e.target;
 
+          
           if (btn.classList.contains('editar')) {
             const id = btn.dataset.id;
             alert(`Redirecionando para editar o item ID: ${id}\n(Criar página: editarEquipamento.php?id=${id})`);
-         
           }
 
           if (btn.classList.contains('trocar-prat')) {
@@ -151,12 +164,41 @@ $view_atual = $_GET['view'] ?? 'todos';
             const novaPrat = prompt("Digite a nova localização (prateleira):");
             
             if (novaPrat && novaPrat.trim() !== "") {
-            
               alert(`(Lógica pendente) Trocando prateleira do ID ${id} para ${novaPrat}`);
-              
-
             }
           }
+
+         
+          if (btn.classList.contains('pegar') || btn.classList.contains('devolver')) {
+            const action = btn.classList.contains('pegar') ? 'pegar_equipamentos' : 'devolver_equipamento';
+            
+            const expandRow = btn.closest('.expand-row'); 
+            
+            const id_equipamento = expandRow.dataset.id;
+            const inputQtd = expandRow.querySelector('.quantidade');
+            
+            if (!inputQtd) return; 
+            
+            const quantidade = inputQtd.value; 
+
+            if (!quantidade || quantidade <= 0) {
+              alert('Informe uma quantidade válida.');
+              return;
+            }
+
+            fetch(`../php/${action}.php`, {
+              method: 'POST',
+              headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+              body: `id_equipamento=${encodeURIComponent(id_equipamento)}&quantidade=${encodeURIComponent(quantidade)}`
+            })
+            .then(res => res.text())
+            .then(msg => {
+              alert(msg);
+              location.reload(); 
+            })
+            .catch(() => alert('Erro ao comunicar com o servidor.'));
+          }
+        
         });
 
       });

@@ -1,10 +1,10 @@
 <?php
-$servername = "localhost";
-$username = "root";
-$password = "";
-$database = "almoxarifado_utilidades";
+$nome = "localhost";
+$usuario = "root";
+$senha = "";
+$banco = "almoxarifado_utilidades";
 
-$conn = new mysqli($servername, $username, $password, $database);
+$conn = new mysqli($nome, $usuario, $senha, $banco);
 if ($conn->connect_error) {
     die("Erro na conexão: " . $conn->connect_error);
 }

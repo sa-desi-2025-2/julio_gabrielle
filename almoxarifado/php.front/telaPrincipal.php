@@ -35,17 +35,30 @@ $view_atual = $_GET['view'] ?? 'todos';
             Equipamentos em ocupação
           </a>
         </li>
-        <li><a href="#">Configurações</a></li> </ul>
+        <li>
+        <a href="telaPrincipal.php?view=meus" class="<?php echo ($view_atual == 'meus') ? 'ativo' : ''; ?>">
+          Meus equipamentos
+        </a>
+        </li>
     </aside>
 
-    <main class="content">
-      <header class="header">
+    <header class="header">
         <h1>Equipamentos Ativos</h1>
-        <div class="actions">
-          <input type="text" placeholder="Buscar equipamento..." class="search">
-          <button class="btn">Filtrar</button>
-        </div>
+        <form class="actions" method="GET" action="">
+          
+          <input type="hidden" name="view" value="<?php echo htmlspecialchars($view_atual); ?>">
+          
+          <input 
+            type="text" 
+            placeholder="Buscar por nome, marca, local..." 
+            class="search" 
+            name="busca"
+            value="<?php echo htmlspecialchars($_GET['busca'] ?? ''); ?>"
+          />
+          <button type="submit" class="btn">Filtrar</button>
+        </form>
       </header>
+      
 
       <section class="table-section">
         <table class="table">
@@ -88,7 +101,7 @@ $view_atual = $_GET['view'] ?? 'todos';
         const btn = e.target;
 
         if (btn.classList.contains('pegar') || btn.classList.contains('devolver')) {
-          const action = btn.classList.contains('pegar') ? 'pegar_equipamento' : 'devolver_equipamento';
+          const action = btn.classList.contains('pegar') ? 'pegar_equipamentos' : 'devolver_equipamento';
           
           const expandRow = btn.closest('.expand-row'); 
           
