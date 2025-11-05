@@ -10,10 +10,7 @@ $view_atual = $_GET['view'] ?? 'todos';
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Painel do Administrador</title>
   <link rel="stylesheet" href="../css/telaPrincipal.css" />
-  <style>
-    .sidebar ul li a { display: block; text-decoration: none; color: inherit; }
-    .sidebar ul li a.ativo { background-color: #17377d; font-weight: bold; border-radius: 8px; }
-  </style>
+
 </head>
 <body>
   <div class="dashboard">
@@ -117,9 +114,18 @@ $view_atual = $_GET['view'] ?? 'todos';
           speedDial.classList.contains('open') ? close() : open();
         });
     
+        
         document.addEventListener('click', (e) => {
-          if (!speedDial.contains(e.target)) close();
+         
+          if (speedDial && !speedDial.contains(e.target)) close();
+
+          if (!e.target.closest('.dropdown-prat-container')) {
+            document.querySelectorAll('.dropdown-prat-container.open').forEach(container => {
+              container.classList.remove('open');
+            });
+          }
         });
+       
     
      
         document.querySelectorAll('.sd-btn').forEach(btn => {
@@ -159,14 +165,60 @@ $view_atual = $_GET['view'] ?? 'todos';
             alert(`Redirecionando para editar o item ID: ${id}\n(Criar página: editarEquipamento.php?id=${id})`);
           }
 
+         
+          
+          
           if (btn.classList.contains('trocar-prat')) {
-            const id = btn.dataset.id;
-            const novaPrat = prompt("Digite a nova localização (prateleira):");
+            e.stopPropagation(); 
+            const container = btn.closest('.dropdown-prat-container');
+
+           
+            const isOpen = container.classList.contains('open');
             
-            if (novaPrat && novaPrat.trim() !== "") {
-              alert(`(Lógica pendente) Trocando prateleira do ID ${id} para ${novaPrat}`);
+           
+            document.querySelectorAll('.dropdown-prat-container.open').forEach(openContainer => {
+                openContainer.classList.remove('open');
+            });
+
+            
+            if (!isOpen) {
+                container.classList.add('open');
+            }
+           
+          }
+
+         
+          if (btn.classList.contains('dropdown-item-prat')) {
+            const idPrateleira = btn.dataset.idPrat;
+            if (!idPrateleira) {
+                alert('Esta não é uma prateleira válida.');
+                return; 
+            }
+            
+            const menu = btn.closest('.dropdown-menu-prat');
+            const idEquipamento = menu.dataset.idEquip;
+            const nomePrateleira = btn.textContent.trim();
+
+            if (confirm(`Mover equipamento (ID: ${idEquipamento}) para a prateleira "${nomePrateleira}"?`)) {
+                
+               
+                fetch('../php/atualizar_prateleira.php', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                    body: `id_equipamento=${encodeURIComponent(idEquipamento)}&id_prateleira=${encodeURIComponent(idPrateleira)}`
+                })
+                .then(res => res.text())
+                .then(msg => {
+                    alert(msg); 
+                    if (msg.includes('sucesso')) {
+                        location.reload(); 
+                    }
+                })
+                .catch(() => alert('Erro ao comunicar com o servidor.'));
             }
           }
+
+         
 
          
           if (btn.classList.contains('pegar') || btn.classList.contains('devolver')) {

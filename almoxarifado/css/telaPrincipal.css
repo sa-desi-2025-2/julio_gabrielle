@@ -494,3 +494,56 @@
 .acao-btn.devolver:hover {
   background: #c02b2b;
 }
+
+/* ... (Todos os estilos existentes) ... */
+
+
+/* ===== ESTILOS PARA DROPDOWN DE PRATELEIRA ===== */
+.dropdown-prat-container {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-menu-prat {
+  display: none; /* Escondido por padrão */
+  position: absolute;
+  background-color: #ffffff;
+  min-width: 200px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+  border-radius: 8px;
+  padding: 8px;
+  z-index: 100;
+  /* Faz o menu aparecer ACIMA do botão */
+  bottom: 100%; 
+  margin-bottom: 6px; 
+  max-height: 220px;
+  overflow-y: auto;
+  border: 1px solid #e0e0e0;
+}
+
+/* Classe 'open' que será adicionada via JS para mostrar o menu */
+.dropdown-prat-container.open .dropdown-menu-prat {
+  display: block;
+}
+
+.dropdown-item-prat {
+  padding: 10px 14px;
+  cursor: pointer;
+  border-radius: 6px;
+  color: #333;
+  list-style: none; /* Remove bolinhas da lista */
+  font-size: 14px;
+  font-weight: 600;
+  transition: background-color 0.15s, color 0.15s;
+}
+
+.dropdown-item-prat:hover {
+  background-color: #f1fbff;
+  color: #0f3f6b;
+}
+
+.dropdown-item-prat.disabled {
+  color: #999;
+  cursor: not-allowed;
+  background-color: #f9f9f9;
+}

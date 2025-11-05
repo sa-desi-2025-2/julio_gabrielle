@@ -10,6 +10,19 @@ $id_usuario_logado = $_SESSION['id_funcionario'] ?? 0;
 $view = $_GET['view'] ?? 'todos';
 
 
+$lista_prateleiras = [];
+if ($is_admin) { 
+    $sql_prateleiras = "SELECT id_prateleira, numero_prateleira FROM prateleiras ORDER BY numero_prateleira ASC";
+    $result_prateleiras = $conn->query($sql_prateleiras);
+    if ($result_prateleiras && $result_prateleiras->num_rows > 0) {
+        while($prat_row = $result_prateleiras->fetch_assoc()) {
+            $lista_prateleiras[] = $prat_row;
+        }
+    }
+}
+
+
+
 $termo_busca = null;
 $parametro_busca = null;
 $params = [];
@@ -78,13 +91,11 @@ $sql_meus = "
 
 
 $sql_filtrar = "
-/* Filtro para itens 'livres' (adicionado após o WHERE) */
+
 AND (e.nome LIKE ? OR e.fabricante LIKE ? OR p.numero_prateleira LIKE ?)
 
-/* Filtro para itens 'ocupados' ou 'meus' (adicionado ANTES do GROUP BY) */
 WHERE (e.nome LIKE ? OR e.fabricante LIKE ? OR p.numero_prateleira LIKE ? OR f.nome LIKE ?)
 ";
-
 
 
 if ($view == 'livres') {
@@ -190,7 +201,24 @@ if ($result && $result->num_rows > 0) {
     
         if ($is_admin) {
             echo "<button class='acao-btn editar' data-id='" . $id_equip . "'>Editar Equipamento</button>";
+            
+            echo "<div class='dropdown-prat-container'>";
             echo "<button class='acao-btn trocar-prat' data-id='" . $id_equip . "'>Trocar Prateleira</button>";
+            
+            echo "<ul class='dropdown-menu-prat' data-id-equip='" . $id_equip . "'>";
+            
+            if (empty($lista_prateleiras)) {
+                echo "<li class='dropdown-item-prat disabled'>Nenhuma prateleira cadastrada</li>";
+            } else {
+                foreach ($lista_prateleiras as $prat) {
+                    echo "<li class='dropdown-item-prat' data-id-prat='" . htmlspecialchars($prat['id_prateleira']) . "'>";
+                    echo htmlspecialchars($prat['numero_prateleira']);
+                    echo "</li>";
+                }
+            }
+            
+            echo "</ul>";
+            echo "</div>"; 
         } 
         
        

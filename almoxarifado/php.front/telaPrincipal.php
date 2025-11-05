@@ -10,10 +10,8 @@ $view_atual = $_GET['view'] ?? 'todos';
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Painel do Usuário</title>
   <link rel="stylesheet" href="../css/telaPrincipal.css">
-  <style>
-    .sidebar ul li a { display: block; text-decoration: none; color: inherit; }
-    .sidebar ul li a.ativo { background-color: #1aa0c2; border-radius: 8px; }
-  </style>
+  
+
 </head>
 <body>
   <div class="dashboard">
@@ -42,42 +40,46 @@ $view_atual = $_GET['view'] ?? 'todos';
         </li>
     </aside>
 
-    <header class="header">
-        <h1>Equipamentos Ativos</h1>
-        <form class="actions" method="GET" action="">
-          
-          <input type="hidden" name="view" value="<?php echo htmlspecialchars($view_atual); ?>">
-          
-          <input 
-            type="text" 
-            placeholder="Buscar por nome, marca, local..." 
-            class="search" 
-            name="busca"
-            value="<?php echo htmlspecialchars($_GET['busca'] ?? ''); ?>"
-          />
-          <button type="submit" class="btn">Filtrar</button>
-        </form>
-      </header>
-      
+    <main class="content">
 
-      <section class="table-section">
-        <table class="table">
-          <thead>
-            <tr>
-              <th>Nome do Equipamento</th>
-              <th>Localização</th>
-              <th>Quantidade</th>
-              <th>Marca</th>
-              <th>Responsável</th>
-              <th>Ações</th> 
-            </tr>
-          </thead>
-          <tbody>
-            <?php include '../php/equipamentos.php'; ?>
-          </tbody>
-        </table>
-      </section>
+      <header class="header">
+          <h1>Equipamentos Ativos</h1>
+          <form class="actions" method="GET" action="">
+            
+            <input type="hidden" name="view" value="<?php echo htmlspecialchars($view_atual); ?>">
+            
+            <input 
+              type="text" 
+              placeholder="Buscar por nome, marca, local..." 
+              class="search" 
+              name="busca"
+              value="<?php echo htmlspecialchars($_GET['busca'] ?? ''); ?>"
+            />
+            <button type="submit" class="btn">Filtrar</button>
+          </form>
+        </header>
+        
+
+        <section class="table-section">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Nome do Equipamento</th>
+                <th>Localização</th>
+                <th>Quantidade</th>
+                <th>Marca</th>
+                <th>Responsável</th>
+                <th>Ações</th> 
+              </tr>
+            </thead>
+            <tbody>
+              <?php include '../php/equipamentos.php'; ?>
+            </tbody>
+          </table>
+        </section>
+
     </main>
+
   </div>
 
   <script>
