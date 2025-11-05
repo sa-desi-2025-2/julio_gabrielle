@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Painel do Usuário</title>
+  <link rel="stylesheet" href="telaPrincipal.css">
+</head>
+<body>
+  <div class="dashboard">
+    <aside class="sidebar">
+      <h2 class="logo">Almoxarifado</h2>
+      <ul class="menu">
+        <li class="ativo">Início</li>
+        <li>Equipamentos</li>
+        <li>Ferramentas</li>
+        <li>Configurações</li>
+      </ul>
+    </aside>
+
+    <main class="content">
+      <header class="header">
+        <h1>Equipamentos Ativos</h1>
+        <div class="actions">
+          <input type="text" placeholder="Buscar equipamento..." class="search">
+          <button class="btn">Filtrar</button>
+        </div>
+      </header>
+
+      <section class="table-section">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Nome do Equipamento</th>
+              <th>Localização</th>
+              <th>Quantidade</th>
+              <th>Marca</th>
+              <th>Responsável</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="data-row" tabindex="0" aria-expanded="false">
+              <td>Equipamento 1</td>
+              <td>Projeto A</td>
+              <td>5</td>
+              <td>RMK</td>
+              <td>Lucas</td>
+              
+       
+            </tr>
+
+            <!-- linha expansível — aparece quando a linha acima é clicada -->
+            <tr class="expand-row" hidden>
+              <td colspan="6" class="expand-cell">
+                <div class="row-actions">
+                  <button class="acao-btn pegar">Pegar Equipamento</button>
+                  <button class="acao-btn devolver">Devolver Equipamento</button>
+                </div>
+              </td>
+            </tr>
+
+          </tbody>
+        </table>
+      </section>
+    </main>
+  </div>
+
+  
+
+    <!-- Accordion: expande a linha inteira ao clicar -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const rows = document.querySelectorAll('tr.data-row');
+
+      rows.forEach(row => {
+        const detail = row.nextElementSibling;
+        if (!detail || !detail.classList.contains('expand-row')) return;
+
+        const toggle = (evt) => {
+          // não abrir quando clicar em controles internos (dropdown, botões, inputs)
+          if (evt && evt.target && (evt.target.closest('.dropdown') || evt.target.closest('.dropbtn') || evt.target.closest('.acao-btn') || evt.target.tagName === 'INPUT' || evt.target.tagName === 'BUTTON')) return;
+
+          const isOpen = row.getAttribute('aria-expanded') === 'true';
+          row.setAttribute('aria-expanded', isOpen ? 'false' : 'true');
+          if (isOpen) {
+            detail.hidden = true;
+            row.classList.remove('expanded');
+          } else {
+            detail.hidden = false;
+            row.classList.add('expanded');
+            const firstBtn = detail.querySelector('button');
+            if (firstBtn) firstBtn.focus();
+          }
+        };
+
+        row.addEventListener('click', toggle);
+        row.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            toggle(e);
+          }
+        });
+      });
+
+      // fecha todos se clicar fora das linhas/detalhes
+      document.addEventListener('click', (e) => {
+        document.querySelectorAll('tr.data-row').forEach(row => {
+          const detail = row.nextElementSibling;
+          if (!detail || !detail.classList.contains('expand-row')) return;
+          if (row.getAttribute('aria-expanded') === 'true' && !row.contains(e.target) && !detail.contains(e.target)) {
+            row.setAttribute('aria-expanded', 'false');
+            detail.hidden = true;
+            row.classList.remove('expanded');
+          }
+        });
+      });
+    });
+  </script>
+  </body>
+</html>

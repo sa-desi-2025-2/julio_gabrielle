@@ -22,7 +22,7 @@ $view_atual = $_GET['view'] ?? 'todos';
       <ul class="menu">
         <li>
           <a href="telaPrincipal.php?view=todos" class="<?php echo ($view_atual == 'todos') ? 'ativo' : ''; ?>">
-            Início (Todos)
+            Início
           </a>
         </li>
         <li>
@@ -32,7 +32,7 @@ $view_atual = $_GET['view'] ?? 'todos';
         </li>
         <li>
           <a href="telaPrincipal.php?view=ocupados" class="<?php echo ($view_atual == 'ocupados') ? 'ativo' : ''; ?>">
-            Equipamentos em ocupação
+            Equipamentos ocupados
           </a>
         </li>
         <li>
