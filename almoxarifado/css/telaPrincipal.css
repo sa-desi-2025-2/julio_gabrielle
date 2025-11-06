@@ -547,3 +547,89 @@
   cursor: not-allowed;
   background-color: #f9f9f9;
 }
+
+/* Responsividade principal */
+@media (max-width: 1024px) {
+  /* reduzir largura sidebar em tablets */
+  .sidebar { width: 200px; }
+  main { margin-left: 200px; }
+}
+
+/* Layout móvel: esconder sidebar, permitir scroll horizontal da tabela e empilhar controles */
+@media (max-width: 900px) {
+  .sidebar { display: none; }
+  main { margin-left: 0; padding: 16px; }
+
+  /* ações empilhadas */
+  .actions { flex-direction: column; gap: 8px; }
+  .actions .btn { width: 100%; }
+  .actions input.search { width: 100%; }
+
+  /* tabela rolável horizontalmente */
+  .table { border-radius: 8px; overflow: hidden; }
+  .table-section { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  table { min-width: 720px; }
+
+  /* ajustar linhas/espacamentos */
+  table th, table td { padding: 10px 12px; font-size: 14px; }
+  .data-row, .expand-row { font-size: 14px; }
+
+  /* FAB: reduzir margem para não sobrepor conteúdo */
+  .speed-dial { right: 16px; bottom: 16px; }
+}
+
+/* Ajustes finos para celular pequeno */
+@media (max-width: 600px) {
+  .sd-btn { padding: 8px 10px; font-size: 14px; }
+  .fab { right: 12px; bottom: 12px; width: 48px; height: 48px; font-size: 22px; }
+  table { min-width: 600px; }
+  .quantidade { width: 72px; height: 36px; padding: 6px 10px; }
+}
+
+/* ... (todo o seu CSS existente) ... */
+
+/* Estilos para Tabela de Funcionários */
+.acao-btn.desativar-func {
+  background: #e73c3c;
+  color: #fff;
+  margin-left: 8px;
+}
+.acao-btn.desativar-func:hover {
+  background: #c02b2b;
+}
+
+.acao-btn.ativar-func {
+  background: #2ecc71;
+  color: #fff;
+  margin-left: 8px;
+}
+.acao-btn.ativar-func:hover {
+  background: #27ae60;
+}
+
+.acao-btn.editar-func {
+  background-color: #1aa0c2;
+  color: #fff;
+}
+.acao-btn.editar-func:hover {
+  background: #06667e;
+}
+
+.acao-btn-disabled {
+  font-size: 12px;
+  color: #999;
+  margin-left: 8px;
+}
+
+/* Linha do funcionário inativo */
+tr.inativo {
+  background-color: #fcf0f0;
+  opacity: 0.7;
+}
+tr.inativo:hover {
+  background-color: #fbe6e6;
+  opacity: 1;
+}
+tr.inativo td {
+  color: #777;
+}
