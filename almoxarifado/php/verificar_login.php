@@ -21,7 +21,7 @@ if (!isset($_POST['RE']) || empty($_POST['RE'])) {
 
 $re = $conn->real_escape_string($_POST['RE']);
 
-$sql = "SELECT * FROM funcionarios WHERE RE = '$re'";
+$sql = "SELECT * FROM funcionarios WHERE RE = '$re' AND ativo=1";
 $resultado = $conn->query($sql);
 
 if ($resultado->num_rows > 0) {
