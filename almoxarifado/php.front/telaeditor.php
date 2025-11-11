@@ -43,7 +43,7 @@ $view_atual = $_GET['view'] ?? 'todos';
             </li>
             <li>
                 <a href="telaeditor.php?view=meus" class="<?php echo ($view_atual == 'meus') ? 'ativo' : ''; ?>">
-                Meus
+                Meus Equipamentos
                 </a>
             </li>
             
@@ -51,6 +51,18 @@ $view_atual = $_GET['view'] ?? 'todos';
           <a href="telaeditor.php?view=funcionarios" class="<?php echo ($view_atual == 'funcionarios') ? 'ativo' : ''; ?>">
             Funcionários
           </a>
+        </li>
+
+        <li class="usuario-logado">
+          <span class="nome-usuario">
+            <?php 
+           
+              echo htmlspecialchars($_SESSION['nome'] ?? 'Usuário'); 
+            ?>
+          </span>
+        </li>
+        <li>
+          <a href="../html/entrarNaConta.html">Sair</a>
         </li>
         </ul>
         <?php endif; ?>

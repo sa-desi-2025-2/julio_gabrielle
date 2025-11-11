@@ -38,6 +38,18 @@ $view_atual = $_GET['view'] ?? 'todos';
           Meus equipamentos
         </a>
         </li>
+
+        <li class="usuario-logado">
+          <span class="nome-usuario">
+            <?php 
+           
+              echo htmlspecialchars($_SESSION['nome'] ?? 'Usuário'); 
+            ?>
+          </span>
+        </li>
+        <li>
+          <a href="../html/entrarNaConta.html">Sair</a>
+        </li>
     </aside>
 
     <main class="content">
