@@ -15,42 +15,43 @@ $view_atual = $_GET['view'] ?? 'todos';
 </head>
 <body>
   <div class="dashboard">
-    <aside class="sidebar">
-      <h2 class="logo">Almoxarifado</h2>
-      <ul class="menu">
-        <li>
-          <a href="telaPrincipal.php?view=todos" class="<?php echo ($view_atual == 'todos') ? 'ativo' : ''; ?>">
-            Início
-          </a>
-        </li>
-        <li>
-          <a href="telaPrincipal.php?view=livres" class="<?php echo ($view_atual == 'livres') ? 'ativo' : ''; ?>">
-            Equipamentos livres
-          </a>
-        </li>
-        <li>
-          <a href="telaPrincipal.php?view=ocupados" class="<?php echo ($view_atual == 'ocupados') ? 'ativo' : ''; ?>">
-            Equipamentos ocupados
-          </a>
-        </li>
-        <li>
-        <a href="telaPrincipal.php?view=meus" class="<?php echo ($view_atual == 'meus') ? 'ativo' : ''; ?>">
-          Meus equipamentos
-        </a>
-        </li>
+  <aside class="sidebar">
+  <h2 class="logo">Almoxarifado</h2>
+  <ul class="menu">
+    <li>
+      <a href="telaPrincipal.php?view=todos" class="<?php echo ($view_atual == 'todos') ? 'ativo' : ''; ?>">
+        Início
+      </a>
+    </li>
+    <li>
+      <a href="telaPrincipal.php?view=livres" class="<?php echo ($view_atual == 'livres') ? 'ativo' : ''; ?>">
+        Equipamentos livres
+      </a>
+    </li>
+    <li>
+      <a href="telaPrincipal.php?view=ocupados" class="<?php echo ($view_atual == 'ocupados') ? 'ativo' : ''; ?>">
+        Equipamentos ocupados
+      </a>
+    </li>
+    <li>
+      <a href="telaPrincipal.php?view=meus" class="<?php echo ($view_atual == 'meus') ? 'ativo' : ''; ?>">
+        Meus equipamentos
+      </a>
+    </li>
 
-        <li class="usuario-logado">
-          <span class="nome-usuario">
-            <?php 
-           
-              echo htmlspecialchars($_SESSION['nome'] ?? 'Usuário'); 
-            ?>
-          </span>
-        </li>
-        <li>
-          <a href="../html/entrarNaConta.html">Sair</a>
-        </li>
-    </aside>
+    <li class="usuario-logado">
+      <span class="nome-usuario">
+        <?php echo htmlspecialchars($_SESSION['nome'] ?? 'Usuário'); ?>
+      </span>
+    </li>
+
+    <!-- MARQUEI ESTE LI COMO "logout" PARA CSS -->
+    <li class="logout">
+      <a href="../html/entrarNaConta.html">Sair</a>
+    </li>
+  </ul>
+</aside>
+
 
     <main class="content">
 
@@ -81,7 +82,7 @@ $view_atual = $_GET['view'] ?? 'todos';
                 <th>Quantidade</th>
                 <th>Marca</th>
                 <th>Responsável</th>
-                <th>Ações</th> 
+                <th></th> 
               </tr>
             </thead>
             <tbody>

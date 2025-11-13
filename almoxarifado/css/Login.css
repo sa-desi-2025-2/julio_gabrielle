@@ -43,7 +43,7 @@ html,body{height:100%;font-family:Inter,system-ui,-apple-system,"Segoe UI",Robot
 .login-wrap{
   position:relative;z-index:4;width:780px;max-width:calc(100% - 48px);
   border-radius:18px;padding:36px 44px;
-  background:linear-gradient(180deg, #0f3f6b 0%, #135a9c 50%, #1b7ed0 100%);
+  background:linear-gradient(180deg, #1b7ed0  0%, #135a9c 50%, #0f3f6b 75%, #0b2946 100%);
   box-shadow:0 30px 70px rgba(0,0,0,0.6);text-align:center;
   transition:transform .28s ease,box-shadow .28s ease;pointer-events:auto;
 }
@@ -158,7 +158,7 @@ input:focus-visible,.btn:focus-visible,a:focus-visible{outline:3px solid rgba(16
 /* ===== ESTILOS PARA O ALERTA DE ERRO ===== */
 .login-error {
   padding: 12px 15px;
-  color: #ff0000;                              
+  color: #ff6b3e;                              
 
 }
 

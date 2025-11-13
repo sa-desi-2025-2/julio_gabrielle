@@ -16,11 +16,13 @@ $view_atual = $_GET['view'] ?? 'todos';
     <aside class="sidebar">
       <h2 class="logo">Almoxarifado</h2>
       <ul class="menu">
+      <?php if (!in_array($view_atual, ['todos', 'livres', 'ocupados', 'meus'])) { ?>
         <li>
-          <a href="telaeditor.php?view=todos" class="<?php echo in_array($view_atual, ['todos', 'livres', 'ocupados', 'meus']) ? 'ativo' : ''; ?>">
+          <a href="telaeditor.php?view=todos">
             Equipamentos
           </a>
         </li>
+      <?php } ?>
         
 
 
@@ -57,7 +59,7 @@ $view_atual = $_GET['view'] ?? 'todos';
           <span class="nome-usuario">
             <?php 
            
-              echo htmlspecialchars($_SESSION['nome'] ?? 'Usuário'); 
+              echo htmlspecialchars($_SESSION['nome'] ??  'Usuário'); 
             ?>
           </span>
         </li>
@@ -110,7 +112,7 @@ $view_atual = $_GET['view'] ?? 'todos';
                 <th>Quantidade</th>
                 <th>Marca</th>
                 <th>Responsável</th>
-                <th>Ações</th>
+                <th></th>
               </tr>
             </thead>
             <tbody>
