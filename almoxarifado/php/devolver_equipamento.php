@@ -4,6 +4,7 @@ include 'conexao.php';
 
 $id_equipamento = (int)($_POST['id_equipamento'] ?? 0);
 $qtd_devolvida = (int)($_POST['quantidade'] ?? 0);
+$observacao = ($_POST['observacao'] ?? "") ?: "Devolução sem observação";
 
 $id_funcionario = $_SESSION['id_funcionario'] ?? null;
 
@@ -45,9 +46,9 @@ try {
     $stmt_update->execute();
 
    
-    $sql_log = "INSERT INTO movimentacoes (id_equipamento, id_funcionario, tipo_movimentacao, quantidade) VALUES (?, ?, 'entrada', ?)";
+    $sql_log = "INSERT INTO movimentacoes (id_equipamento, id_funcionario, tipo_movimentacao, quantidade, observacao) VALUES (?, ?, 'entrada', ?, ?)";
     $stmt_log = $conn->prepare($sql_log);
-    $stmt_log->bind_param("iii", $id_equipamento, $id_funcionario, $qtd_devolvida);
+    $stmt_log->bind_param("iiii", $id_equipamento, $id_funcionario, $qtd_devolvida, $observacao);
     $stmt_log->execute();
 
     
