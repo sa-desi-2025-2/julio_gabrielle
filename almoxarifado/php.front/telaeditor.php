@@ -2,6 +2,26 @@
 include '../php/painel_admin.php';
 
 $view_atual = $_GET['view'] ?? 'todos';
+
+$titulo_pagina = "Equipamentos Ativos";
+$placeholder_busca = "Buscar por nome, marca, local, descrição...";
+
+if ($view_atual == 'funcionarios') {
+    $titulo_pagina = "Gerenciar Funcionários";
+    $placeholder_busca = "Buscar por nome, cargo ou RE...";
+} elseif ($view_atual == 'movimentacoes') {
+    $titulo_pagina = "Histórico de Movimentações";
+    $placeholder_busca = "Buscar por equipamento, funcionário ou obs...";
+} elseif ($view_atual == 'livres') {
+    $titulo_pagina = "Equipamentos Livres";
+} elseif ($view_atual == 'ocupados') {
+    $titulo_pagina = "Equipamentos Ocupados";
+} elseif ($view_atual == 'meus') {
+    $titulo_pagina = "Meus Equipamentos";
+} elseif ($view_atual == 'todos') {
+     $titulo_pagina = "Todos os Equipamentos";
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -13,73 +33,64 @@ $view_atual = $_GET['view'] ?? 'todos';
 </head>
 <body>
   <div class="dashboard">
+    
     <aside class="sidebar">
       <h2 class="logo">Almoxarifado</h2>
       <ul class="menu">
-      <?php if (!in_array($view_atual, ['todos', 'livres', 'ocupados', 'meus'])) { ?>
-        <li>
-          <a href="telaeditor.php?view=todos">
-            Equipamentos
-          </a>
-        </li>
-      <?php } ?>
         
-
-
-        <?php if (in_array($view_atual, ['todos', 'livres', 'ocupados', 'meus'])): ?>
-        <ul class="submenu">
-            <li>
-                <a href="telaeditor.php?view=todos" class="<?php echo ($view_atual == 'todos') ? 'ativo' : ''; ?>">
-                Todos
-                </a>
-            </li>
-            <li>
-                <a href="telaeditor.php?view=livres" class="<?php echo ($view_atual == 'livres') ? 'ativo' : ''; ?>">
-                Livres
-                </a>
-            </li>
-            <li>
-                <a href="telaeditor.php?view=ocupados" class="<?php echo ($view_atual == 'ocupados') ? 'ativo' : ''; ?>">
-                Ocupados
-                </a>
-            </li>
-            <li>
-                <a href="telaeditor.php?view=meus" class="<?php echo ($view_atual == 'meus') ? 'ativo' : ''; ?>">
-                Meus Equipamentos
-                </a>
-            </li>
-            
-            <li>
+        <li>
+            <a href="telaeditor.php?view=todos" class="<?php echo ($view_atual == 'todos') ? 'ativo' : ''; ?>">
+             Todos Equipamentos
+            </a>
+        </li>
+        <li>
+            <a href="telaeditor.php?view=livres" class="<?php echo ($view_atual == 'livres') ? 'ativo' : ''; ?>">
+             Equipamentos Livres
+            </a>
+        </li>
+        <li>
+            <a href="telaeditor.php?view=ocupados" class="<?php echo ($view_atual == 'ocupados') ? 'ativo' : ''; ?>">
+             Equipamentos Ocupados
+            </a>
+        </li>
+        <li>
+            <a href="telaeditor.php?view=meus" class="<?php echo ($view_atual == 'meus') ? 'ativo' : ''; ?>">
+             Meus Equipamentos
+            </a>
+        </li>
+        
+        <li>
           <a href="telaeditor.php?view=funcionarios" class="<?php echo ($view_atual == 'funcionarios') ? 'ativo' : ''; ?>">
             Funcionários
           </a>
         </li>
 
+        <li>
+          <a href="telaeditor.php?view=movimentacoes" class="<?php echo ($view_atual == 'movimentacoes') ? 'ativo' : ''; ?>">
+            Movimentações
+          </a>
+        </li>
+
         <li class="usuario-logado">
           <span class="nome-usuario">
-            <?php 
-           
-              echo htmlspecialchars($_SESSION['nome'] ??  'Usuário'); 
-            ?>
+            <?php echo htmlspecialchars($_SESSION['nome'] ??  'Usuário'); ?>
           </span>
         </li>
         <li>
           <a href="../html/entrarNaConta.html">Sair</a>
         </li>
-        </ul>
-        <?php endif; ?>
+      </ul>
     </aside>
-
     <main class="content">
     <header class="header">
-        <h1><?php echo ($view_atual == 'funcionarios') ? 'Gerenciar Funcionários' : 'Equipamentos Ativos'; ?></h1>
+        <h1><?php echo $titulo_pagina; ?></h1>
         
         <form class="actions" method="GET" action="">
           <input type="hidden" name="view" value="<?php echo htmlspecialchars($view_atual); ?>">
           
           <input 
             type="text" 
-            placeholder="<?php echo ($view_atual == 'funcionarios') ? 'Buscar por nome, cargo ou RE...' : 'Buscar por nome, marca, local...'; ?>" 
+            placeholder="<?php echo $placeholder_busca;  ?>" 
             class="search" 
             name="busca"
             value="<?php echo htmlspecialchars($_GET['busca'] ?? ''); ?>"
@@ -104,11 +115,28 @@ $view_atual = $_GET['view'] ?? 'todos';
             <tbody>
                 <?php include '../php/funcionarios_admin.php';  ?>
             </tbody>
+
+          <?php elseif ($view_atual == 'movimentacoes'): ?>
+            <thead>
+              <tr>
+                <th>Data/Hora</th>
+                <th>Equipamento</th>
+                <th>Funcionário</th>
+                <th>Tipo</th>
+                <th>Qtd</th>
+                <th>Observação</th>
+              </tr>
+            </thead>
+            <tbody>
+                <?php include '../php/movimentacoes_admin.php';  ?>
+            </tbody>
+
           <?php else: ?>
             <thead>
               <tr>
                 <th>Nome do Equipamento</th>
                 <th>Localização</th>
+                <th>Descrição</th>
                 <th>Quantidade</th>
                 <th>Marca</th>
                 <th>Responsável</th>
@@ -125,7 +153,7 @@ $view_atual = $_GET['view'] ?? 'todos';
     </main>
   </div>
 
-  <?php if ($view_atual != 'funcionarios'): ?>
+  <?php if ($view_atual != 'funcionarios' && $view_atual != 'movimentacoes'): ?>
   <div class="speed-dial" id="speedDial"> 
     <div class="speed-dial-actions" id="speedActions" aria-hidden="true">
       <button class="sd-btn" data-action="adicionar-usuario" type="button">Adicionar usuário</button>

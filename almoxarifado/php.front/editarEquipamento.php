@@ -25,6 +25,15 @@ if ($id_equipamento > 0) {
 }
 
 $conn->close();
+
+
+$view_atual = 'todos'; 
+if (isset($_SESSION['last_equipment_view'])) {
+    $view_atual = $_SESSION['last_equipment_view']; 
+}
+
+$_SESSION['last_equipment_view'] = $view_atual;
+
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -39,10 +48,50 @@ $conn->close();
     <aside class="sidebar">
       <h2 class="logo">Almoxarifado</h2>
       <ul class="menu">
-        <li><a href="telaeditor.php">Início</a></li>
+        
+        <li>
+            <a href="telaeditor.php?view=todos" class="<?php echo ($view_atual == 'todos') ? 'ativo' : ''; ?>">
+             Todos Equipamentos
+            </a>
+        </li>
+        <li>
+            <a href="telaeditor.php?view=livres" class="<?php echo ($view_atual == 'livres') ? 'ativo' : ''; ?>">
+             Equipamentos Livres
+            </a>
+        </li>
+        <li>
+            <a href="telaeditor.php?view=ocupados" class="<?php echo ($view_atual == 'ocupados') ? 'ativo' : ''; ?>">
+             Equipamentos Ocupados
+            </a>
+        </li>
+        <li>
+            <a href="telaeditor.php?view=meus" class="<?php echo ($view_atual == 'meus') ? 'ativo' : ''; ?>">
+             Meus Equipamentos
+            </a>
+        </li>
+        
+        <li>
+          <a href="telaeditor.php?view=funcionarios" class="<?php echo ($view_atual == 'funcionarios') ? 'ativo' : ''; ?>">
+            Funcionários
+          </a>
+        </li>
+
+        <li>
+          <a href="telaeditor.php?view=movimentacoes" class="<?php echo ($view_atual == 'movimentacoes') ? 'ativo' : ''; ?>">
+            Movimentações
+          </a>
+        </li>
+
+        <li class="usuario-logado">
+          <span class="nome-usuario">
+            <?php echo htmlspecialchars($_SESSION['nome'] ??  'Usuário'); ?>
+          </span>
+        </li>
+        <li>
+          <a href="../html/entrarNaConta.html">Sair</a>
+        </li>
       </ul>
     </aside>
-
     <main class="content">
       <h1>Editar Equipamento</h1>
       <div class="breadcrumbs">
@@ -74,7 +123,7 @@ $conn->close();
 
             <div class="form-grupo">
               <label>Descrição</label>
-              <input type="text" name="descricao" placeholder="Digite uma descrição..." value="<?php echo htmlspecialchars($equipamento['descricao']); ?>" />
+              <textarea name="descricao" placeholder="Digite uma descrição..."><?php echo htmlspecialchars($equipamento['descricao']); ?></textarea>
             </div>
 
             <div class="botoes">

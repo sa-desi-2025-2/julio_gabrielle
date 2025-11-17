@@ -45,7 +45,6 @@ $view_atual = $_GET['view'] ?? 'todos';
       </span>
     </li>
 
-    <!-- MARQUEI ESTE LI COMO "logout" PARA CSS -->
     <li class="logout">
       <a href="../html/entrarNaConta.html">Sair</a>
     </li>
@@ -79,7 +78,7 @@ $view_atual = $_GET['view'] ?? 'todos';
               <tr>
                 <th>Nome do Equipamento</th>
                 <th>Localização</th>
-                <th>Quantidade</th>
+                <th>Descrição</th> <th>Quantidade</th>
                 <th>Marca</th>
                 <th>Responsável</th>
                 <th></th> 
