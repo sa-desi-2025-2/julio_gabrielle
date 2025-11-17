@@ -39,7 +39,7 @@ $sql_livres = "
         e.nome,
         e.fabricante,
         e.quantidade,
-        e.descricao, /* ADICIONADO AQUI */
+        e.descricao,
         p.numero_prateleira AS localizacao,
         '-' AS responsavel,
         0 AS id_responsavel, 
@@ -57,7 +57,7 @@ $sql_ocupados = "
         e.fabricante,
         (SUM(CASE WHEN m.tipo_movimentacao = 'saida' THEN m.quantidade ELSE 0 END) - 
          SUM(CASE WHEN m.tipo_movimentacao = 'entrada' THEN m.quantidade ELSE 0 END)) AS quantidade,
-        e.descricao, /* ADICIONADO AQUI */
+        e.descricao,
         p.numero_prateleira AS localizacao,
         f.nome AS responsavel,
         f.id_funcionario AS id_responsavel, 
@@ -66,7 +66,6 @@ $sql_ocupados = "
     JOIN equipamentos e ON m.id_equipamento = e.id_equipamento
     JOIN funcionarios f ON m.id_funcionario = f.id_funcionario
     LEFT JOIN prateleiras p ON e.id_prateleira = p.id_prateleira
-    /* O WHERE será inserido aqui pela lógica do filtro se necessário */
     GROUP BY m.id_equipamento, m.id_funcionario, f.nome, e.nome, e.fabricante, e.descricao, p.numero_prateleira
     HAVING quantidade > 0
 ";
@@ -88,16 +87,13 @@ $sql_meus = "
     JOIN funcionarios f ON m.id_funcionario = f.id_funcionario
     LEFT JOIN prateleiras p ON e.id_prateleira = p.id_prateleira
     WHERE m.id_funcionario = ? -- Filtro pelo usuário logado
-    /* O AND (filtro) será inserido aqui pela lógica se necessário */
     GROUP BY m.id_equipamento, m.id_funcionario, f.nome, e.nome, e.fabricante, e.descricao, p.numero_prateleira
     HAVING quantidade > 0
 ";
 
 
 $sql_filtrar = "
-/* ATUALIZADO PARA INCLUIR BUSCA NA DESCRICAO */
 AND (e.nome LIKE ? OR e.fabricante LIKE ? OR p.numero_prateleira LIKE ? OR e.descricao LIKE ?)
-
 WHERE (e.nome LIKE ? OR e.fabricante LIKE ? OR p.numero_prateleira LIKE ? OR f.nome LIKE ? OR e.descricao LIKE ?)
 ";
 

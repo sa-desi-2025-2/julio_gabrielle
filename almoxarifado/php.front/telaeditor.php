@@ -282,11 +282,12 @@ if ($view_atual == 'funcionarios') {
               alert('Informe uma quantidade válida.');
               return;
             }
-
+            
+            const observacao = prompt('Digite uma observação (opcional):', '');
             fetch(`../php/${action}.php`, {
               method: 'POST',
               headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-              body: `id_equipamento=${encodeURIComponent(id_equipamento)}&quantidade=${encodeURIComponent(quantidade)}`
+              body: `id_equipamento=${encodeURIComponent(id_equipamento)}&quantidade=${encodeURIComponent(quantidade)}&observacao=${encodeURIComponent(observacao)}`
             })
             .then(res => res.text())
             .then(msg => {
