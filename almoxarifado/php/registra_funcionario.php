@@ -1,15 +1,6 @@
 <?php
-
-$host = 'localhost'; 
-$db   = 'almoxarifado_utilidades';
-$usuario = 'root';
-$senha = '';
-
-$conn = new mysqli($host, $usuario, $senha, $db);
-
-if ($conn->connect_error) {
-    die("Falha na conexão: " . $conn->connect_error);
-}
+session_start();
+include 'conexao.php'; 
 
 $nome = $_POST['nome'] ?? '';
 $cargo = $_POST['cargo'] ?? '';
@@ -29,7 +20,7 @@ if ($stmt->execute()) {
     echo "
     <script>
       alert('Funcionário registrado com sucesso!');
-      window.location.href = '../php.front/telaeditor.php';
+      window.location.href = '../php.front/telaeditor.php?view=funcionarios';
     </script>
     ";
 } else {

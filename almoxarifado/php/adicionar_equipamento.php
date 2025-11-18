@@ -1,47 +1,56 @@
 <?php
-
-$servername = "localhost";
-$username = "root"; 
-$password = ""; 
-$dbname = "almoxarifado_utilidades";
-
-
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-
-if ($conn->connect_error) {
-    die("Falha na conexão: " . $conn->connect_error);
-}
-
+session_start();
+include 'conexao.php'; 
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    $nome = $_POST["nome"];
-    $fabricante = $_POST["fabricante"];
-    $quantidade = $_POST["quantidade"];
-    $descricao = $_POST["descricao"];
+    
+    
+    $nome = trim($_POST["nome"] ?? '');
+    $fabricante = trim($_POST["fabricante"] ?? '');
+    $quantidade = (int)($_POST["quantidade"] ?? 0); 
+    $descricao = trim($_POST["descricao"] ?? '');
 
-   
-    $stmt = $conn->prepare("INSERT INTO equipamentos (nome, fabricante, quantidade, descricao) VALUES (?, ?, ?, ?)");
-    $stmt->bind_param("ssis", $nome, $fabricante, $quantidade, $descricao);
-
-    if ($stmt->execute()) {
+    
+    if (empty($nome) || $quantidade <= 0) {
         echo "
         <script>
-          alert('Equipamento adicionado com sucesso!');
-          // FIX: Corrigido o caminho do redirecionamento para a tela de editor
-          window.location.href = '../php.front/telaeditor.php';
+          alert('Erro: Nome e Quantidade (maior que 0) são obrigatórios.');
+          window.history.back();
         </script>
         ";
+        exit;
+    }
+
+    $sql = "INSERT INTO equipamentos (nome, fabricante, quantidade, descricao) VALUES (?, ?, ?, ?)";
+    $stmt = $conn->prepare($sql);
+    
+    if ($stmt) {
+        $stmt->bind_param("ssis", $nome, $fabricante, $quantidade, $descricao);
+
+        if ($stmt->execute()) {
+            echo "
+            <script>
+              alert('Equipamento adicionado com sucesso!');
+              window.location.href = '../php.front/telaeditor.php';
+            </script>
+            ";
+        } else {
+            echo "
+            <script>
+              alert('Erro ao inserir no banco: " . addslashes($stmt->error) . "');
+              window.history.back();
+            </script>
+            ";
+        }
+        $stmt->close();
     } else {
         echo "
         <script>
-          alert('Erro ao adicionar equipamento: " . $stmt->error . "');
+          alert('Erro na preparação da consulta: " . addslashes($conn->error) . "');
           window.history.back();
         </script>
         ";
     }
-
-    $stmt->close();
 }
 
 $conn->close();

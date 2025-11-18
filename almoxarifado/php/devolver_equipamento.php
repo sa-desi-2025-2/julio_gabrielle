@@ -1,6 +1,6 @@
 <?php
 session_start();
-include 'conexao.php';
+include 'conexao.php'; 
 
 $id_equipamento = (int)($_POST['id_equipamento'] ?? 0);
 $qtd_devolvida = (int)($_POST['quantidade'] ?? 0);
@@ -17,6 +17,7 @@ $conn->begin_transaction();
 
 try {
     
+  
     $sql_check = "
         SELECT 
             (SUM(CASE WHEN m.tipo_movimentacao = 'saida' THEN m.quantidade ELSE 0 END) - 
@@ -40,12 +41,14 @@ try {
         throw new Exception("Erro: Você está tentando devolver $qtd_devolvida, mas você só possui $qtd_atual_com_o_usuario deste item.");
     }
    
+    
     $sql_update = "UPDATE equipamentos SET quantidade = quantidade + ? WHERE id_equipamento = ?";
     $stmt_update = $conn->prepare($sql_update);
     $stmt_update->bind_param("ii", $qtd_devolvida, $id_equipamento);
     $stmt_update->execute();
 
    
+  
     $sql_log = "INSERT INTO movimentacoes (id_equipamento, id_funcionario, tipo_movimentacao, quantidade, observacao) VALUES (?, ?, 'entrada', ?, ?)";
     $stmt_log = $conn->prepare($sql_log);
     $stmt_log->bind_param("iiis", $id_equipamento, $id_funcionario, $qtd_devolvida, $observacao);
