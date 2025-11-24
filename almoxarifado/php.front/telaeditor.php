@@ -6,12 +6,16 @@ $view_atual = $_GET['view'] ?? 'todos';
 $titulo_pagina = "Equipamentos Ativos";
 $placeholder_busca = "Buscar por nome, marca, local, descrição...";
 
+
 if ($view_atual == 'funcionarios') {
     $titulo_pagina = "Gerenciar Funcionários";
     $placeholder_busca = "Buscar por nome, cargo ou RE...";
 } elseif ($view_atual == 'movimentacoes') {
     $titulo_pagina = "Histórico de Movimentações";
     $placeholder_busca = "Buscar por equipamento, funcionário ou obs...";
+} elseif ($view_atual == 'prateleiras') {
+    $titulo_pagina = "Gerenciar Prateleiras";
+    $placeholder_busca = "Busca desativada para esta tela";
 } elseif ($view_atual == 'livres') {
     $titulo_pagina = "Equipamentos Livres";
 } elseif ($view_atual == 'ocupados') {
@@ -60,6 +64,12 @@ if ($view_atual == 'funcionarios') {
         </li>
         
         <li>
+            <a href="telaeditor.php?view=prateleiras" class="<?php echo ($view_atual == 'prateleiras') ? 'ativo' : ''; ?>">
+             Prateleiras
+            </a>
+        </li>
+
+        <li>
           <a href="telaeditor.php?view=funcionarios" class="<?php echo ($view_atual == 'funcionarios') ? 'ativo' : ''; ?>">
             Funcionários
           </a>
@@ -94,8 +104,12 @@ if ($view_atual == 'funcionarios') {
             class="search" 
             name="busca"
             value="<?php echo htmlspecialchars($_GET['busca'] ?? ''); ?>"
+            <?php echo ($view_atual == 'prateleiras') ? 'disabled' : ''; ?>
           />
-          <button type="submit" class="btn">Filtrar</button>
+          
+          <?php if ($view_atual != 'prateleiras'): ?>
+            <button type="submit" class="btn">Filtrar</button>
+          <?php endif; ?>
         </form>
       </header>
 
@@ -131,6 +145,18 @@ if ($view_atual == 'funcionarios') {
                 <?php include '../php/movimentacoes_admin.php';  ?>
             </tbody>
 
+          <?php elseif ($view_atual == 'prateleiras'): ?>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Nome/Número da Prateleira</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody>
+                <?php include '../php/prateleiras_admin.php'; ?>
+            </tbody>
+
           <?php else: ?>
             <thead>
               <tr>
@@ -158,6 +184,7 @@ if ($view_atual == 'funcionarios') {
     <div class="speed-dial-actions" id="speedActions" aria-hidden="true">
       <button class="sd-btn" data-action="adicionar-usuario" type="button">Adicionar usuário</button>
       <button class="sd-btn" data-action="adicionar-equipamento" type="button">Adicionar equipamento</button>
+      <button class="sd-btn" data-action="adicionar-prateleira" type="button">Adicionar prateleira</button>
     </div>
     <button class="fab" id="fab" aria-expanded="false" aria-label="Abrir opções">+</button>
   </div>
@@ -204,11 +231,13 @@ if ($view_atual == 'funcionarios') {
                 else if (action === 'adicionar-equipamento') {
                   window.location.href = '../html/adicionarEquipamento.html';
                 }
+                else if (action === 'adicionar-prateleira') {
+                  window.location.href = '../html/adicionarPrateleira.html';
+                }
               });
             });
         }
     
-        
         document.querySelectorAll('.data-row').forEach(row => {
           row.addEventListener('click', (event) => {
             if (event.target.closest('button') || event.target.closest('input')) return; 
@@ -227,8 +256,26 @@ if ($view_atual == 'funcionarios') {
             window.location.href = `editarEquipamento.php?id=${id}`;
           }
 
-          if (btn.classList.contains('excluir')) {
-       
+          if (btn.classList.contains('editar-prat')) {
+             const id = btn.dataset.id;
+             window.location.href = `editarPrateleira.php?id=${id}`;
+          }
+
+          if (btn.classList.contains('excluir-prat')) {
+            const id = btn.dataset.id;
+            if (confirm('Tem certeza que deseja excluir esta prateleira? Os equipamentos nela ficarão sem local definido.')) {
+                fetch('../php/excluir_prateleira.php', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                    body: `id_prateleira=${encodeURIComponent(id)}`
+                })
+                .then(res => res.text())
+                .then(msg => {
+                    alert(msg);
+                    location.reload();
+                })
+                .catch(() => alert('Erro ao comunicar com o servidor.'));
+            }
           }
 
           if (btn.classList.contains('trocar-prat')) {
@@ -309,7 +356,6 @@ if ($view_atual == 'funcionarios') {
             }
           }
 
-          
           if (btn.classList.contains('ativar-func')) {
             const id = btn.dataset.id;
             if (confirm(`Tem certeza que deseja REATIVAR este funcionário (ID: ${id})?`)) {
@@ -319,7 +365,6 @@ if ($view_atual == 'funcionarios') {
         
         });
         
-       
         document.addEventListener('click', (e) => {
             if (!e.target.closest('.dropdown-prat-container')) {
                 document.querySelectorAll('.dropdown-prat-container.open').forEach(container => {
@@ -328,7 +373,6 @@ if ($view_atual == 'funcionarios') {
             }
         });
 
-     
         function enviarAtualizacaoStatus(id, status) {
             fetch('../php/alternar_status_funcionario.php', {
                 method: 'POST',

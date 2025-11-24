@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Adicionar Prateleira</title>
+  <link rel="stylesheet" href="../css/telaPrincipal.css" />
+</head>
+<body>
+  <div class="dashboard">
+    <aside class="sidebar">
+      <h2 class="logo">Almoxarifado</h2>
+      <ul class="menu">
+        <li class="ativo">Início</li>
+      </ul>
+    </aside>
+
+    <main class="content">
+      <h1>Adicionar Prateleira</h1>
+      <div class="breadcrumbs">
+        <span>Configurações</span> > <span class="atual">Adicionar Prateleira</span>
+      </div>
+
+      <div class="form-container">
+        <form class="form-editar" action="../php/adicionar_prateleira.php" method="POST">
+          <div class="form-grupo">
+            <label>Nome/Número da Prateleira</label>
+            <input type="text" name="numero_prateleira" placeholder="Ex: Prateleira A1, Armário 3..." required />
+          </div>
+
+          <div class="botoes">
+            <button type="submit" class="salvar">Salvar Prateleira</button>
+            <button type="button" class="cancelar" onclick="window.history.back()">Cancelar</button>
+          </div>
+        </form>
+      </div>
+    </main>
+  </div>
+</body>
+</html>
