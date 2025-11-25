@@ -27,44 +27,44 @@ $sql = "SELECT
         LEFT JOIN funcionarios f ON m.id_funcionario = f.id_funcionario
 ";
 
-$params = [];
-$types = "";
+$parametros = [];
+$tipos = "";
 
 if ($termo_busca) {
     $sql .= " WHERE e.nome LIKE ? OR f.nome LIKE ? OR m.observacao LIKE ?";
-    $params = [$termo_busca, $termo_busca, $termo_busca];
-    $types = "sss";
+    $parametros = [$termo_busca, $termo_busca, $termo_busca];
+    $tipos = "sss";
 }
 
 $sql .= " ORDER BY m.data_movimentacao DESC LIMIT 200"; // Limita a 200 para performance
 
-$stmt = $conn->prepare($sql);
+$declaracao = $conn->prepare($sql);
 if ($termo_busca) {
-    $stmt->bind_param($types, ...$params);
+    $declaracao->bind_param($tipos, ...$parametros);
 }
 
-$stmt->execute();
-$result = $stmt->get_result();
+$declaracao->execute();
+$resultado = $declaracao->get_result();
 
-if ($result && $result->num_rows > 0) {
-    while ($row = $result->fetch_assoc()) {
+if ($resultado && $resultado->num_rows > 0) {
+    while ($linha = $resultado->fetch_assoc()) {
         
-        $tipo = htmlspecialchars($row['tipo_movimentacao']);
+        $tipo = htmlspecialchars($linha['tipo_movimentacao']);
         $classe_tipo = $tipo == 'saida' ? 'desativar-func' : 'ativar-func'; // Reusa estilos
         
         echo "<tr>";
-        echo "<td>" . htmlspecialchars(date('d/m/Y H:i:s', strtotime($row['data_movimentacao']))) . "</td>";
-        echo "<td>" . htmlspecialchars($row['equipamento_nome'] ?? 'N/D') . "</td>";
-        echo "<td>" . htmlspecialchars($row['funcionario_nome'] ?? 'Sistema') . "</td>";
+        echo "<td>" . htmlspecialchars(date('d/m/Y H:i:s', strtotime($linha['data_movimentacao']))) . "</td>";
+        echo "<td>" . htmlspecialchars($linha['equipamento_nome'] ?? 'N/D') . "</td>";
+        echo "<td>" . htmlspecialchars($linha['funcionario_nome'] ?? 'Sistema') . "</td>";
         echo "<td><span class='acao-btn $classe_tipo' style='pointer-events:none;'>" . ucfirst($tipo) . "</span></td>";
-        echo "<td>" . htmlspecialchars($row['quantidade']) . "</td>";
-        echo "<td>" . htmlspecialchars($row['observacao'] ?? '-') . "</td>";
+        echo "<td>" . htmlspecialchars($linha['quantidade']) . "</td>";
+        echo "<td>" . htmlspecialchars($linha['observacao'] ?? '-') . "</td>";
         echo "</tr>";
     }
 } else {
     echo "<tr><td colspan='6'>Nenhuma movimentação encontrada.</td></tr>";
 }
 
-$stmt->close();
+$declaracao->close();
 $conn->close();
 ?>

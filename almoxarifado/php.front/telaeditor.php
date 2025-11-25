@@ -194,75 +194,75 @@ if ($view_atual == 'funcionarios') {
     <script>
       document.addEventListener('DOMContentLoaded', () => {
         
-        const fab = document.getElementById('fab');
-        if (fab) {
-            const speedDial = document.getElementById('speedDial');
-            const actions = document.getElementById('speedActions');
+        const botaoFlutuante = document.getElementById('fab');
+        if (botaoFlutuante) {
+            const menuRapido = document.getElementById('speedDial');
+            const acoesMenu = document.getElementById('speedActions');
         
-            const open = () => {
-              speedDial.classList.add('open');
-              fab.classList.add('open');
-              actions.setAttribute('aria-hidden', 'false');
-              fab.setAttribute('aria-expanded', 'true');
+            const abrir = () => {
+              menuRapido.classList.add('open');
+              botaoFlutuante.classList.add('open');
+              acoesMenu.setAttribute('aria-hidden', 'false');
+              botaoFlutuante.setAttribute('aria-expanded', 'true');
             };
         
-            const close = () => {
-              speedDial.classList.remove('open');
-              fab.classList.remove('open');
-              actions.setAttribute('aria-hidden', 'true');
-              fab.setAttribute('aria-expanded', 'false');
+            const fechar = () => {
+              menuRapido.classList.remove('open');
+              botaoFlutuante.classList.remove('open');
+              acoesMenu.setAttribute('aria-hidden', 'true');
+              botaoFlutuante.setAttribute('aria-expanded', 'false');
             };
         
-            fab.addEventListener('click', (e) => {
+            botaoFlutuante.addEventListener('click', (e) => {
               e.stopPropagation();
-              speedDial.classList.contains('open') ? close() : open();
+              menuRapido.classList.contains('open') ? fechar() : abrir();
             });
             
             document.addEventListener('click', (e) => {
-                if (speedDial && !speedDial.contains(e.target)) close();
+                if (menuRapido && !menuRapido.contains(e.target)) fechar();
             });
 
-            document.querySelectorAll('.sd-btn').forEach(btn => {
-              btn.addEventListener('click', () => {
-                const action = btn.dataset.action;
-                if (action === 'adicionar-usuario') {
+            document.querySelectorAll('.sd-btn').forEach(botao => {
+              botao.addEventListener('click', () => {
+                const acao = botao.dataset.action;
+                if (acao === 'adicionar-usuario') {
                   window.location.href = '../html/registra_funcionario.html';
                 } 
-                else if (action === 'adicionar-equipamento') {
+                else if (acao === 'adicionar-equipamento') {
                   window.location.href = '../html/adicionarEquipamento.html';
                 }
-                else if (action === 'adicionar-prateleira') {
+                else if (acao === 'adicionar-prateleira') {
                   window.location.href = '../html/adicionarPrateleira.html';
                 }
               });
             });
         }
     
-        document.querySelectorAll('.data-row').forEach(row => {
-          row.addEventListener('click', (event) => {
-            if (event.target.closest('button') || event.target.closest('input')) return; 
-            const expandRow = row.nextElementSibling;
-            const expanded = row.getAttribute('aria-expanded') === 'true';
-            row.setAttribute('aria-expanded', !expanded);
-            expandRow.hidden = expanded; 
+        document.querySelectorAll('.data-row').forEach(linha => {
+          linha.addEventListener('click', (evento) => {
+            if (evento.target.closest('button') || evento.target.closest('input')) return; 
+            const linhaExpandida = linha.nextElementSibling;
+            const expandido = linha.getAttribute('aria-expanded') === 'true';
+            linha.setAttribute('aria-expanded', !expandido);
+            linhaExpandida.hidden = expandido; 
           });
         });
         
         document.querySelector('.table-section').addEventListener('click', (e) => {
-          const btn = e.target;
+          const botao = e.target;
 
-          if (btn.classList.contains('editar')) {
-            const id = btn.dataset.id;
+          if (botao.classList.contains('editar')) {
+            const id = botao.dataset.id;
             window.location.href = `editarEquipamento.php?id=${id}`;
           }
 
-          if (btn.classList.contains('editar-prat')) {
-             const id = btn.dataset.id;
+          if (botao.classList.contains('editar-prat')) {
+             const id = botao.dataset.id;
              window.location.href = `editarPrateleira.php?id=${id}`;
           }
 
-          if (btn.classList.contains('excluir-prat')) {
-            const id = btn.dataset.id;
+          if (botao.classList.contains('excluir-prat')) {
+            const id = botao.dataset.id;
             if (confirm('Tem certeza que deseja excluir esta prateleira? Os equipamentos nela ficarão sem local definido.')) {
                 fetch('../php/excluir_prateleira.php', {
                     method: 'POST',
@@ -270,35 +270,35 @@ if ($view_atual == 'funcionarios') {
                     body: `id_prateleira=${encodeURIComponent(id)}`
                 })
                 .then(res => res.text())
-                .then(msg => {
-                    alert(msg);
+                .then(mensagem => {
+                    alert(mensagem);
                     location.reload();
                 })
                 .catch(() => alert('Erro ao comunicar com o servidor.'));
             }
           }
 
-          if (btn.classList.contains('trocar-prat')) {
+          if (botao.classList.contains('trocar-prat')) {
             e.stopPropagation(); 
-            const container = btn.closest('.dropdown-prat-container');
-            const isOpen = container.classList.contains('open');
-            document.querySelectorAll('.dropdown-prat-container.open').forEach(openContainer => {
-                openContainer.classList.remove('open');
+            const recipiente = botao.closest('.dropdown-prat-container');
+            const estaAberto = recipiente.classList.contains('open');
+            document.querySelectorAll('.dropdown-prat-container.open').forEach(recipienteAberto => {
+                recipienteAberto.classList.remove('open');
             });
-            if (!isOpen) {
-                container.classList.add('open');
+            if (!estaAberto) {
+                recipiente.classList.add('open');
             }
           }
           
-          if (btn.classList.contains('dropdown-item-prat')) {
-            const idPrateleira = btn.dataset.idPrat;
+          if (botao.classList.contains('dropdown-item-prat')) {
+            const idPrateleira = botao.dataset.idPrat;
             if (!idPrateleira) {
                 alert('Esta não é uma prateleira válida.');
                 return; 
             }
-            const menu = btn.closest('.dropdown-menu-prat');
+            const menu = botao.closest('.dropdown-menu-prat');
             const idEquipamento = menu.dataset.idEquip;
-            const nomePrateleira = btn.textContent.trim();
+            const nomePrateleira = botao.textContent.trim();
 
             if (confirm(`Mover equipamento (ID: ${idEquipamento}) para a prateleira "${nomePrateleira}"?`)) {
                 fetch('../php/atualizar_prateleira.php', {
@@ -307,9 +307,9 @@ if ($view_atual == 'funcionarios') {
                     body: `id_equipamento=${encodeURIComponent(idEquipamento)}&id_prateleira=${encodeURIComponent(idPrateleira)}`
                 })
                 .then(res => res.text())
-                .then(msg => {
-                    alert(msg); 
-                    if (msg.includes('sucesso')) {
+                .then(mensagem => {
+                    alert(mensagem); 
+                    if (mensagem.includes('sucesso')) {
                         location.reload(); 
                     }
                 })
@@ -317,11 +317,11 @@ if ($view_atual == 'funcionarios') {
             }
           }
 
-          if (btn.classList.contains('pegar') || btn.classList.contains('devolver')) {
-            const action = btn.classList.contains('pegar') ? 'pegar_equipamentos' : 'devolver_equipamento';
-            const expandRow = btn.closest('.expand-row'); 
-            const id_equipamento = expandRow.dataset.id;
-            const inputQtd = expandRow.querySelector('.quantidade');
+          if (botao.classList.contains('pegar') || botao.classList.contains('devolver')) {
+            const acao = botao.classList.contains('pegar') ? 'pegar_equipamentos' : 'devolver_equipamento';
+            const linhaExpandida = botao.closest('.expand-row'); 
+            const id_equipamento = linhaExpandida.dataset.id;
+            const inputQtd = linhaExpandida.querySelector('.quantidade');
             if (!inputQtd) return; 
             const quantidade = inputQtd.value; 
 
@@ -331,33 +331,33 @@ if ($view_atual == 'funcionarios') {
             }
             
             const observacao = prompt('Digite uma observação (opcional):', '');
-            fetch(`../php/${action}.php`, {
+            fetch(`../php/${acao}.php`, {
               method: 'POST',
               headers: {'Content-Type': 'application/x-www-form-urlencoded'},
               body: `id_equipamento=${encodeURIComponent(id_equipamento)}&quantidade=${encodeURIComponent(quantidade)}&observacao=${encodeURIComponent(observacao)}`
             })
             .then(res => res.text())
-            .then(msg => {
-              alert(msg);
+            .then(mensagem => {
+              alert(mensagem);
               location.reload(); 
             })
             .catch(() => alert('Erro ao comunicar com o servidor.'));
           }
 
-          if (btn.classList.contains('editar-func')) {
-            const id = btn.dataset.id;
+          if (botao.classList.contains('editar-func')) {
+            const id = botao.dataset.id;
             window.location.href = `editarFuncionario.php?id=${id}`;
           }
 
-          if (btn.classList.contains('desativar-func')) {
-            const id = btn.dataset.id;
+          if (botao.classList.contains('desativar-func')) {
+            const id = botao.dataset.id;
             if (confirm(`Tem certeza que deseja DESATIVAR este funcionário (ID: ${id})? Ele não poderá mais fazer login.`)) {
               enviarAtualizacaoStatus(id, 0); 
             }
           }
 
-          if (btn.classList.contains('ativar-func')) {
-            const id = btn.dataset.id;
+          if (botao.classList.contains('ativar-func')) {
+            const id = botao.dataset.id;
             if (confirm(`Tem certeza que deseja REATIVAR este funcionário (ID: ${id})?`)) {
               enviarAtualizacaoStatus(id, 1); 
             }
@@ -367,8 +367,8 @@ if ($view_atual == 'funcionarios') {
         
         document.addEventListener('click', (e) => {
             if (!e.target.closest('.dropdown-prat-container')) {
-                document.querySelectorAll('.dropdown-prat-container.open').forEach(container => {
-                    container.classList.remove('open');
+                document.querySelectorAll('.dropdown-prat-container.open').forEach(recipiente => {
+                    recipiente.classList.remove('open');
                 });
             }
         });
@@ -380,9 +380,9 @@ if ($view_atual == 'funcionarios') {
                 body: `id_funcionario=${encodeURIComponent(id)}&status=${encodeURIComponent(status)}`
             })
             .then(res => res.text())
-            .then(msg => {
-                alert(msg);
-                if (!msg.startsWith('Erro')) {
+            .then(mensagem => {
+                alert(mensagem);
+                if (!mensagem.startsWith('Erro')) {
                     location.reload(); 
                 }
             })

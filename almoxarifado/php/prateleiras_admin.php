@@ -1,7 +1,6 @@
 <?php
 include_once 'conexao.php';
 
-// Busca todas as prateleiras
 $sql = "SELECT id_prateleira, numero_prateleira FROM prateleiras ORDER BY numero_prateleira ASC";
 $result = $conn->query($sql);
 

@@ -97,30 +97,30 @@ $view_atual = $_GET['view'] ?? 'todos';
   <script>
     document.addEventListener('DOMContentLoaded', () => {
     
-      const rows = document.querySelectorAll('.data-row');
-      rows.forEach(row => {
-        row.addEventListener('click', (event) => {
-          const expandRow = row.nextElementSibling;
+      const linhas = document.querySelectorAll('.data-row');
+      linhas.forEach(linha => {
+        linha.addEventListener('click', (evento) => {
+          const linhaExpandida = linha.nextElementSibling;
          
-          if (event.target.closest('button') || event.target.closest('input')) return; 
+          if (evento.target.closest('button') || evento.target.closest('input')) return; 
 
-          const expanded = row.getAttribute('aria-expanded') === 'true';
-          row.setAttribute('aria-expanded', !expanded);
+          const expandido = linha.getAttribute('aria-expanded') === 'true';
+          linha.setAttribute('aria-expanded', !expandido);
           
-          expandRow.hidden = expanded; 
+          linhaExpandida.hidden = expandido; 
         });
       });
 
       document.addEventListener('click', (e) => {
-        const btn = e.target;
+        const botao = e.target;
 
-        if (btn.classList.contains('pegar') || btn.classList.contains('devolver')) {
-          const action = btn.classList.contains('pegar') ? 'pegar_equipamentos' : 'devolver_equipamento';
+        if (botao.classList.contains('pegar') || botao.classList.contains('devolver')) {
+          const acao = botao.classList.contains('pegar') ? 'pegar_equipamentos' : 'devolver_equipamento';
           
-          const expandRow = btn.closest('.expand-row'); 
+          const linhaExpandida = botao.closest('.expand-row'); 
           
-          const id_equipamento = expandRow.dataset.id;
-          const inputQtd = expandRow.querySelector('.quantidade');
+          const id_equipamento = linhaExpandida.dataset.id;
+          const inputQtd = linhaExpandida.querySelector('.quantidade');
           
           if (!inputQtd) return; 
           
@@ -131,14 +131,14 @@ $view_atual = $_GET['view'] ?? 'todos';
             return;
           }
           const observacao = prompt('Digite uma observação (opcional):', '');
-         fetch(`../php/${action}.php`, {
+         fetch(`../php/${acao}.php`, {
             method: 'POST',
             headers: {'Content-Type': 'application/x-www-form-urlencoded'},
             body: `id_equipamento=${encodeURIComponent(id_equipamento)}&quantidade=${encodeURIComponent(quantidade)}&observacao=${encodeURIComponent(observacao)}`
           })
           .then(res => res.text())
-          .then(msg => {
-            alert(msg);
+          .then(mensagem => {
+            alert(mensagem);
             location.reload(); 
           })
           .catch(() => alert('Erro ao comunicar com o servidor.'));
